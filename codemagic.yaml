@@ -1,17 +1,29 @@
-# Check out https://docs.codemagic.io/getting-started/building-a-native-ios-app/ for more information
+# Check out https://docs.codemagic.io/getting-started/yaml/ for more information
 # Please review and update values in curly braces
 
 workflows:
-    ios-app:
-        name: iOS App
+    ios-flutter:
+        name: iOS App with Flutter Module
         environment:
             vars:
-                XCODE_WORKSPACE: "{{ ADD WORKSPACE NAME HERE }}"
-                XCODE_SCHEME: "{{ ADD SCHEME NAME HERE }}"
-            xcode: latest
+                FLUTTER_MODULE_DIR: "$HOME/lib"
+                HOST_IOS_APP_DIR: "$HOME/ios"
+                XCODE_PROJECT: "$HOME/ios/Runner"
+                XCODE_SCHEME: "$HOME/${XCODE_PROJECT}.xcodeproj/xcshareddata"
+            xcode: edge
             cocoapods: default
+            flutter: stable
         scripts:
-            - xcodebuild build -workspace "$XCODE_WORKSPACE.xcworkspace" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+            - |
+                # build Flutter module
+                cd $FLUTTER_MODULE_DIR
+                flutter packages get
+                flutter build ios-framework --output=$FCI_BUILD_DIR/$HOST_IOS_APP_DIR/Flutter
+            - |
+                # build iOS project
+                cd $HOST_IOS_APP_DIR
+                pod install
+                xcodebuild build -project "$XCODE_PROJECT.xcodeproj" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
         artifacts:
             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
