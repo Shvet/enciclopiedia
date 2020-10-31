@@ -1,0 +1,62 @@
+[
+  {
+    "name": "ARQUERO",
+    "goals": "GOLES",
+    "penalty": ""
+  },
+  {
+    "name": "Maximo Bnagiera (ECU)",
+    "goals": "4",
+    "penalty": "Penal-4"
+  },
+  {
+    "name": "Erwin Ramirez(ECU)",
+    "goals": "4",
+    "penalty": "Penal-4"
+  },
+  {
+    "name": "Hector Carabali (ECU)",
+    "goals": "3",
+    "penalty": "Penal-1, Jugada-1 (Arco a Arco), Tiro libre-1"
+  },
+  {
+    "name": "Carlos Kiko Delgado (ECU)",
+    "goals": "1",
+    "penalty": "Jugada-1 (Arco a Arco)"
+  },
+  {
+    "name": "Ramon Quiroga (ARG-PER)",
+    "goals": "1",
+    "penalty": "Penal-1"
+  },
+  {
+    "name": "Juan D. Pereira (ARG)",
+    "goals": "1",
+    "penalty": "Penal-1"
+  },
+  {
+    "name": "Joffre Valancia (ECU)",
+    "goals": "1",
+    "penalty": "Jugada-1"
+  },
+  {
+    "name": "Oswaldo Cabral (ARG)",
+    "goals": "1",
+    "penalty": "Jugada-1"
+  },
+  {
+    "name": "Hernan Galindez (ARG-ECU)",
+    "goals": "1",
+    "penalty": "Penal-1"
+  },
+  {
+    "name": "Damian Frascarelli (ARG)",
+    "goals": "1",
+    "penalty": "Penal-1"
+  },
+  {
+    "name": "Ivan Brun (ARG)",
+    "goals": "1",
+    "penalty": "Tiro Libre-1"
+  }
+]
