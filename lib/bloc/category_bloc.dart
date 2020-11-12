@@ -23,7 +23,6 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       yield CategoryLoading();
       try {
         final List<CategoryEntity> entity = await repository.fetchCategory();
-        log.log("Reached in bloc");
         yield CategoryLoaded(entity: entity);
       } catch (e) {
         log.log(e.toString());

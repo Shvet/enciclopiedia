@@ -1,7 +1,6 @@
 import 'package:enciclopiedia_deportiva/models/category_entity.dart';
 
-CategoryEntity categoryEntityFromJson(
-    CategoryEntity data, Map<String, dynamic> json) {
+categoryEntityFromJson(CategoryEntity data, Map<String, dynamic> json) {
   if (json['id'] != null) {
     data.id = json['id']?.toString();
   }

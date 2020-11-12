@@ -1,12 +1,15 @@
 import 'dart:convert';
 
 import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
+import 'package:enciclopiedia_deportiva/models/category_main_entity.dart';
 import 'package:enciclopiedia_deportiva/ui/custom_expansion_tile.dart'
     as custom;
 import 'package:enciclopiedia_deportiva/ui/goal_keep_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'generated/json/category_main_entity_helper.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -15,13 +18,17 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   TextEditingController _searchEdit;
-  List<CategoryList> _list = new List();
+  List<CategoryMainEntity> _list = new List();
 
-  Future<List<CategoryList>> getListFromAssets() async {
+  Future<List<CategoryMainEntity>> getListFromAssets() async {
     String jsonString = await rootBundle.loadString('assets/main_menu.json');
+
     List<dynamic> jsonArray = jsonDecode(jsonString);
-    List<CategoryList> finalList = jsonArray
-        .map((categoryList) => CategoryList.fromJSON(categoryList))
+
+    List<CategoryMainEntity> finalList = jsonArray
+        .map((categoryList) =>
+            categoryMainEntityFromJson(new CategoryMainEntity(), categoryList))
+        .cast<CategoryMainEntity>()
         .toList();
     return finalList;
   }
@@ -53,9 +60,9 @@ class _HomeState extends State<Home> {
         textInputAction: TextInputAction.search,
         onSubmitted: (value) {
           if (value.isNotEmpty) {
-            List<CategoryList> _tempList = new List();
+            List<CategoryMainEntity> _tempList = new List();
             for (int i = 0; i < _list.length; i++) {
-              CategoryList data = _list[i];
+              CategoryMainEntity data = _list[i];
               if (data.title.toLowerCase().contains(value.toLowerCase())) {
                 _tempList.add(data);
               }
@@ -75,9 +82,9 @@ class _HomeState extends State<Home> {
               });
             });
           } else if (value.isNotEmpty && value.length > 3) {
-            List<CategoryList> _tempList = new List();
+            List<CategoryMainEntity> _tempList = new List();
             for (int i = 0; i < _list.length; i++) {
-              CategoryList data = _list[i];
+              CategoryMainEntity data = _list[i];
               if (data.title.toLowerCase().contains(value.toLowerCase())) {
                 _tempList.add(data);
               }
@@ -112,7 +119,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  List<Widget> showSubList(List<String> subString) {
+  List<Widget> showSubList(List<CategoryMainSub> subString) {
     List<Widget> subList = new List();
 
     for (var i = 0; i < subString.length; i++) {
@@ -120,7 +127,7 @@ class _HomeState extends State<Home> {
         child: Padding(
           padding: EdgeInsets.only(left: 20.0, bottom: 5.0, top: 5.0),
           child: Text(
-            subString[i],
+            subString[i].name,
             style: TextStyle(
               color: Colors.black87,
               fontSize: 18.0,
@@ -133,7 +140,9 @@ class _HomeState extends State<Home> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => GoalKeeperList(),
+              builder: (context) => GoalKeeperList(
+                id: subString[i].id,
+              ),
             ),
           );
         },
@@ -308,13 +317,24 @@ class _HomeState extends State<Home> {
   }
 }
 
-class CategoryList {
+/*class CategoryList {
+  String id;
   String title;
-  List<String> sub;
+  List<CategorySubList> sub = new List();
   String image;
 
   CategoryList.fromJSON(Map<String, dynamic> map)
-      : title = map["title"],
+      : id = map["id"],
+        title = map["title"],
         image = map['image'],
-        sub = List.from(map['sub']);
+        sub = sub.add(CategorySubList.fromJSON(map['sub']));
 }
+
+class CategorySubList {
+  String id;
+  String subTitle;
+
+  CategorySubList.fromJSON(Map<String, dynamic> map)
+      : subTitle = map["name"],
+        id = map["id"];
+}*/

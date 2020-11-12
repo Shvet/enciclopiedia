@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:enciclopiedia_deportiva/generated/json/category_entity_helper.dart';
+import 'package:enciclopiedia_deportiva/generated/json/category_sub_entity_helper.dart';
 import 'package:enciclopiedia_deportiva/models/category_entity.dart';
+import 'package:enciclopiedia_deportiva/models/category_sub_entity.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,6 +27,24 @@ class CategoryApi {
         .map((categoryEntity) =>
             categoryEntityFromJson(new CategoryEntity(), categoryEntity))
         .toList();
+    return list;
+  }
+
+  Future<List<CategorySubEntity>> getSubCategory(String id) async {
+    final url = '$_baseUrl' +
+        "option=com_hoicoiapi&task=getContents&token=Mo"
+            "bileAppData21222324252627282930&catid=" +
+        id;
+    final result = await httpClient.get(url);
+    if (result.statusCode != 200) {
+      throw new Exception("error getting categories");
+    }
+    List<dynamic> jsonArray = jsonDecode(result.body);
+
+    List<CategorySubEntity> list = List<CategorySubEntity>.from(jsonArray.map(
+      (categorySub) =>
+          categorySubEntityFromJson(new CategorySubEntity(), categorySub),
+    ));
     return list;
   }
 }

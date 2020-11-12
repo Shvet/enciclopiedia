@@ -41,7 +41,33 @@ class CategoryEntity extends Equatable with JsonConvert<CategoryEntity> {
   String version;
 
   @override
-  List<Object> get props => [id, title];
+  List<Object> get props => [
+        id,
+        title,
+        access,
+        alias,
+        assetId,
+        checkedOut,
+        checkedOutTime,
+        createdTime,
+        createdUserId,
+        metadata,
+        metadesc,
+        metakey,
+        modifiedTime,
+        modifiedUserId,
+        hits,
+        version,
+        language,
+        level,
+        lft,
+        rgt,
+        params,
+        parentId,
+        path,
+        extension,
+        note,
+      ];
 
   @override
   String toString() {

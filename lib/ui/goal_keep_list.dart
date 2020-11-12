@@ -1,43 +1,62 @@
-import 'dart:convert';
-
+import 'package:enciclopiedia_deportiva/bloc/bloc.dart';
 import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
+import 'package:enciclopiedia_deportiva/models/category_sub_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class GoalKeeperList extends StatefulWidget {
+  final String id;
+
+  GoalKeeperList({Key key, @required this.id}) : super(key: key);
+
   @override
   _GoalKeeperListState createState() => _GoalKeeperListState();
 }
 
 class _GoalKeeperListState extends State<GoalKeeperList> {
   TextEditingController _searchEdit;
-  List<GoalKeeper> _list = new List();
+  List<CategorySubEntity> _list;
+  PageController controller;
+  int currentPageValue = 0;
+  int previousPageValue = 0;
+  double _moveBar = 0.0;
+  double screenWidth = 0.0;
+  double screenheight = 0.0;
 
   @override
   void initState() {
     _searchEdit = new TextEditingController();
-    getListFromAssets().then((value) {
-      setState(() {
-        _list.addAll(value);
-      });
-    });
     super.initState();
+    controller = PageController(initialPage: currentPageValue);
+  }
+
+  void getChangedPageAndMoveBar(int page) {
+    print('page is $page');
+    if (previousPageValue == 0) {
+      previousPageValue = page;
+      _moveBar = _moveBar + 0.14;
+    } else {
+      if (previousPageValue < page) {
+        previousPageValue = page;
+        _moveBar = _moveBar + 0.14;
+      } else {
+        previousPageValue = page;
+        _moveBar = _moveBar - 0.14;
+      }
+      currentPageValue = page;
+    }
+
+    // setState(() {});
   }
 
   @override
   void dispose() {
     _searchEdit.dispose();
     super.dispose();
-  }
-
-  Future<List<GoalKeeper>> getListFromAssets() async {
-    String jsonString = await rootBundle.loadString('assets/goal_keeper.json');
-    List<dynamic> jsonArray = jsonDecode(jsonString);
-    List<GoalKeeper> finalList = jsonArray
-        .map((categoryList) => GoalKeeper.fromJSON(categoryList))
-        .toList();
-    return finalList;
   }
 
   Widget _searchBox() {
@@ -51,37 +70,39 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
         cursorColor: Colors.black,
         onSubmitted: (value) {
           if (value.isNotEmpty) {
-            List<GoalKeeper> _tempList = new List();
-            for (int i = 0; i < _list.length; i++) {
-              GoalKeeper data = _list[i];
-              if (data.goalKeeper.toLowerCase().contains(value.toLowerCase())) {
-                _tempList.add(data);
+            if (_list.isNotEmpty) {
+              List<CategorySubEntity> _tempList = new List();
+              for (int i = 0; i < _list.length; i++) {
+                CategorySubEntity data = _list[i];
+                if (data.title.toLowerCase().contains(value.toLowerCase())) {
+                  _tempList.add(data);
+                }
               }
+              setState(() {
+                _list.clear();
+                _list.addAll(_tempList);
+              });
             }
-            setState(() {
-              _list.clear();
-              _list.addAll(_tempList);
-            });
           }
         },
         onChanged: (value) {
-          if (value.isEmpty && value.length == 0) {
-            getListFromAssets().then((value) {
-              _list.clear();
-              _list.addAll(value);
-            });
-          } else if (value.isNotEmpty && value.length > 3) {
-            List<GoalKeeper> _tempList = new List();
-            for (int i = 0; i < _list.length; i++) {
-              GoalKeeper data = _list[i];
-              if (data.goalKeeper.toLowerCase().contains(value.toLowerCase())) {
-                _tempList.add(data);
+          if (_list.isNotEmpty) {
+            if (value.isEmpty && value.length == 0) {
+              BlocProvider.of<CategorySubBloc>(context)
+                  .add(FetchCategorySub(id: widget.id));
+            } else if (value.isNotEmpty && value.length > 3) {
+              List<CategorySubEntity> _tempList = new List();
+              for (int i = 0; i < _list.length; i++) {
+                CategorySubEntity data = _list[i];
+                if (data.title.toLowerCase().contains(value.toLowerCase())) {
+                  _tempList.add(data);
+                }
               }
+              setState(() {
+                _list.clear();
+                _list.addAll(_tempList);
+              });
             }
-            setState(() {
-              _list.clear();
-              _list.addAll(_tempList);
-            });
           }
         },
         decoration: InputDecoration(
@@ -109,7 +130,11 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
   @override
   Widget build(BuildContext context) {
     var statusBarHeight = MediaQuery.of(context).padding.top;
+    screenWidth = MediaQuery.of(context).size.width;
+    screenheight = MediaQuery.of(context).size.height;
 
+    BlocProvider.of<CategorySubBloc>(context)
+        .add(FetchCategorySub(id: widget.id));
     return Scaffold(
       primary: true,
       body: Container(
@@ -163,94 +188,178 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                       SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        "ARQUEROS QUE HAN MARCADO GOLES EN FUTBOL ECUATORIANO",
-                        style: GoogleFonts.openSans(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18.0,
-                          color: darkBG,
-                        ),
-                        textDirection: TextDirection.ltr,
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(
-                        height: 3.0,
-                      ),
-                      Divider(
-                        color: darkBG,
-                        height: 2.0,
-                        thickness: 2.0,
-                      ),
-                      Expanded(
-                        child: ListView.separated(
-                          itemCount: _list.length,
-                          physics: ScrollPhysics(),
-                          shrinkWrap: true,
-                          separatorBuilder: (context, index) => Divider(
-                            height: 1.0,
-                            color: Colors.grey,
-                            thickness: 1.0,
-                          ),
-                          itemBuilder: (context, index) => Row(
-                            mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Expanded(
-                                flex: 3,
-                                child: SizedBox(
-                                  height: 50.0,
-                                  child: Center(
-                                    child: Text(
-                                      _list[index]._goalKeeper,
-                                      maxLines: 2,
-                                      softWrap: true,
-                                      overflow: TextOverflow.visible,
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          fontSize: 15.0,
-                                          inherit: true,
-                                          fontWeight: FontWeight.w400),
+                      BlocBuilder<CategorySubBloc, CategorySubState>(
+                        builder: (context, state) {
+                          if (state is CategorySubInitial) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          if (state is CategoryError) {
+                            return Center(
+                              child: Text("There is Error in "
+                                  "Fetching data"),
+                            );
+                          }
+                          if (state is CategorySubLoaded) {
+                            _list = state.list;
+                            return Expanded(
+                              child: Stack(
+                                alignment: AlignmentDirectional.bottomCenter,
+                                children: <Widget>[
+                                  PageView.builder(
+                                    physics: ClampingScrollPhysics(),
+                                    itemCount: _list.length,
+                                    controller: controller,
+                                    onPageChanged: (int page) {
+                                      getChangedPageAndMoveBar(page);
+                                    },
+                                    itemBuilder: (context, index) => Column(
+                                      children: [
+                                        Text(
+                                          _list[index].title,
+                                          style: GoogleFonts.openSans(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18.0,
+                                            color: darkBG,
+                                          ),
+                                          textDirection: TextDirection.ltr,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        Divider(
+                                          color: darkBG,
+                                          thickness: 1.0,
+                                        ),
+                                        Expanded(
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Html(
+                                                  data: _list[index].introtext,
+                                                  shrinkWrap: true,
+                                                  style: {
+                                                    "table": Style(
+                                                      border: Border(
+                                                          bottom: BorderSide(
+                                                              color:
+                                                                  Colors.grey)),
+                                                    ),
+                                                    "tr": Style(
+                                                      border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ),
+                                                    "th": Style(
+                                                      padding:
+                                                          EdgeInsets.all(6),
+                                                      backgroundColor:
+                                                          Colors.grey,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                    "td": Style(
+                                                      padding:
+                                                          EdgeInsets.all(6),
+                                                    ),
+                                                  },
+                                                ),
+                                                SizedBox(
+                                                  height: 50.0,
+                                                  child: Container(
+                                                    alignment: Alignment.center,
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          Colors.redAccent[100],
+                                                      border: Border.all(
+                                                        color:
+                                                            Colors.deepOrange,
+                                                        width: 2.0,
+                                                      ),
+                                                      shape: BoxShape.rectangle,
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  5.0)),
+                                                    ),
+                                                    child: Text(
+                                                      "Más artículos...",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: SizedBox(
-                                  height: 50.0,
-                                  child: Center(
-                                    child: Text(
-                                      _list[index]._goal,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 15.0,
-                                          fontWeight: FontWeight.w400),
+                                  /*Stack(
+                                    alignment: AlignmentDirectional.topStart,
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.only(bottom: 35),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            for (var i in _list) slidingBar(),
+                                          ],
+                                        ),
+                                      ),
+                                      AnimatedContainer(
+                                        duration: Duration(milliseconds: 100),
+                                        curve: Curves.fastOutSlowIn,
+                                        margin: EdgeInsets.only(
+                                            bottom: 35,
+                                            left: screenWidth * _moveBar),
+                                        child: movingBar(),
+                                      ),
+                                    ],
+                                  ),*/
+                                  Visibility(
+                                    visible: true,
+                                    child: Align(
+                                      child: Container(
+                                        margin: EdgeInsets.only(
+                                          bottom: 10.0,
+                                          right: 10.0,
+                                        ),
+                                        child: FloatingActionButton(
+                                          backgroundColor: Colors.red,
+                                          shape: BeveledRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(25),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            controller.jumpToPage(
+                                                currentPageValue + 1);
+                                            currentPageValue += 1;
+                                          },
+                                          child: Icon(Icons.arrow_forward),
+                                        ),
+                                      ),
+                                      alignment: AlignmentDirectional.bottomEnd,
                                     ),
-                                  ),
-                                ),
+                                  )
+                                ],
                               ),
-                              Expanded(
-                                flex: 2,
-                                child: SizedBox(
-                                  width: 50.0,
-                                  child: Text(
-                                    _list[index]._penalty,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.visible,
-                                    softWrap: true,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 15.0,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                            );
+                          }
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
                       ),
-                      Text("Más artículos..."),
                     ],
                   ),
                 ),
@@ -261,21 +370,210 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
       ),
     );
   }
+
+  Container movingBar() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8),
+      height: 5,
+      width: screenWidth * 0.1,
+      decoration: BoxDecoration(color: Colors.deepOrangeAccent),
+    );
+  }
+
+  Widget slidingBar() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8),
+      height: 5,
+      width: screenWidth * 0.1,
+      decoration: BoxDecoration(color: Colors.black),
+    );
+  }
 }
 
-class GoalKeeper {
-  String _goalKeeper;
-  String _goal;
-  String _penalty;
-
-  GoalKeeper.fromJSON(Map<String, dynamic> map)
-      : _goalKeeper = map['name'],
-        _goal = map['goals'],
-        _penalty = map['penalty'];
-
-  String get goalKeeper => _goalKeeper;
-
-  String get penalty => _penalty;
-
-  String get goal => _goal;
-}
+/*ListView.separated(
+                                itemCount: _list.length,
+                                physics: ScrollPhysics(),
+                                shrinkWrap: true,
+                                separatorBuilder: (context, index) => Divider(
+                                  height: 1.0,
+                                  color: Colors.grey,
+                                  thickness: 1.0,
+                                ),
+                                itemBuilder: (context, index) => Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 3,
+                                      child: SizedBox(
+                                        height: 50.0,
+                                        child: Center(
+                                          child: Text(
+                                            _list[index]._goalKeeper,
+                                            maxLines: 2,
+                                            softWrap: true,
+                                            overflow: TextOverflow.visible,
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                                fontSize: 15.0,
+                                                inherit: true,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: SizedBox(
+                                        height: 50.0,
+                                        child: Center(
+                                          child: Text(
+                                            _list[index]._goal,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: SizedBox(
+                                        width: 50.0,
+                                        child: Text(
+                                          _list[index]._penalty,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.visible,
+                                          softWrap: true,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),*/
+/*Column(
+mainAxisSize: MainAxisSize.max,
+crossAxisAlignment: CrossAxisAlignment.start,
+mainAxisAlignment: MainAxisAlignment.start,
+children: <Widget>[
+_searchBox(),
+SizedBox(
+height: 10,
+),
+Text(
+"ARQUEROS QUE HAN MARCADO GOLES EN FUTBOL ECUATORIANO",
+style: GoogleFonts.openSans(
+fontWeight: FontWeight.w600,
+fontSize: 18.0,
+color: darkBG,
+),
+textDirection: TextDirection.ltr,
+textAlign: TextAlign.center,
+),
+SizedBox(
+height: 3.0,
+),
+Divider(
+color: darkBG,
+height: 2.0,
+thickness: 2.0,
+),
+Expanded(
+child: ListView.separated(
+itemCount: _list.length,
+physics: ScrollPhysics(),
+shrinkWrap: true,
+separatorBuilder: (context, index) => Divider(
+height: 1.0,
+color: Colors.grey,
+thickness: 1.0,
+),
+itemBuilder: (context, index) => Row(
+mainAxisSize: MainAxisSize.max,
+crossAxisAlignment: CrossAxisAlignment.center,
+mainAxisAlignment:
+MainAxisAlignment.spaceEvenly,
+children: <Widget>[
+Expanded(
+flex: 3,
+child: SizedBox(
+height: 50.0,
+child: Center(
+child: Text(
+_list[index]._goalKeeper,
+maxLines: 2,
+softWrap: true,
+overflow: TextOverflow.visible,
+textAlign: TextAlign.start,
+style: TextStyle(
+fontSize: 15.0,
+inherit: true,
+fontWeight: FontWeight.w400),
+),
+),
+),
+),
+Expanded(
+flex: 1,
+child: SizedBox(
+height: 50.0,
+child: Center(
+child: Text(
+_list[index]._goal,
+textAlign: TextAlign.center,
+style: TextStyle(
+fontSize: 15.0,
+fontWeight: FontWeight.w400),
+),
+),
+),
+),
+Expanded(
+flex: 2,
+child: SizedBox(
+width: 50.0,
+child: Text(
+_list[index]._penalty,
+maxLines: 2,
+overflow: TextOverflow.visible,
+softWrap: true,
+textAlign: TextAlign.center,
+style: TextStyle(
+fontSize: 15.0,
+fontWeight: FontWeight.w400),
+),
+),
+),
+],
+),
+),
+),
+SizedBox(
+height: 50.0,
+child: Container(
+alignment: Alignment.center,
+decoration: BoxDecoration(
+color: Colors.redAccent[100],
+border: Border.all(
+color: Colors.deepOrange,
+width: 2.0,
+),
+shape: BoxShape.rectangle,
+borderRadius:
+BorderRadius.all(Radius.circular(5.0)),
+),
+child: Text(
+"Más artículos...",
+textAlign: TextAlign.center,
+),
+),
+),
+],
+);*/

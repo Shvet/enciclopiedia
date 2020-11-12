@@ -11,6 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
 import 'app.dart';
+import 'bloc/category_bloc.dart';
+import 'bloc/category_sub_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,10 +42,26 @@ Future<void> main() async {
 
   Bloc.observer = SimpleBlocObserver();
   GlobalKey _key = GlobalKey();
-  runApp(MyApp(
-    repository: repository,
-    key: _key,
-  ));
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<CategoryBloc>(
+          create: (context) => CategoryBloc(
+            repository: repository,
+          ),
+        ),
+        BlocProvider(
+          create: (context) => CategorySubBloc(
+            repository: repository,
+          ),
+        ),
+      ],
+      child: MyApp(
+        repository: repository,
+        key: _key,
+      ),
+    ),
+  );
 }
 
 class SimpleBlocObserver implements BlocObserver {
