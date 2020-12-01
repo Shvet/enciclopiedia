@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:enciclopiedia_deportiva/bloc/bloc.dart';
 import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
 import 'package:enciclopiedia_deportiva/models/category_sub_entity.dart';
+import 'package:enciclopiedia_deportiva/ui/more_articales.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +35,8 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
     _searchEdit = new TextEditingController();
     super.initState();
     controller = PageController(initialPage: currentPageValue);
+    BlocProvider.of<CategorySubBloc>(context)
+        .add(FetchCategorySub(id: widget.id));
   }
 
   void getChangedPageAndMoveBar(int page) {
@@ -50,7 +55,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
       currentPageValue = page;
     }
 
-    // setState(() {});
+    setState(() {});
   }
 
   @override
@@ -69,40 +74,29 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
         textInputAction: TextInputAction.search,
         cursorColor: Colors.black,
         onSubmitted: (value) {
-          if (value.isNotEmpty) {
-            if (_list.isNotEmpty) {
-              List<CategorySubEntity> _tempList = new List();
-              for (int i = 0; i < _list.length; i++) {
-                CategorySubEntity data = _list[i];
-                if (data.title.toLowerCase().contains(value.toLowerCase())) {
-                  _tempList.add(data);
-                }
-              }
-              setState(() {
-                _list.clear();
-                _list.addAll(_tempList);
-              });
-            }
+          if (value.isNotEmpty && _list.isNotEmpty) {
+            BlocProvider.of<CategorySubBloc>(context)
+                .add(SearchCategorySub(search: value, list: _list));
           }
         },
         onChanged: (value) {
-          if (_list.isNotEmpty) {
-            if (value.isEmpty && value.length == 0) {
-              BlocProvider.of<CategorySubBloc>(context)
-                  .add(FetchCategorySub(id: widget.id));
-            } else if (value.isNotEmpty && value.length > 3) {
-              List<CategorySubEntity> _tempList = new List();
-              for (int i = 0; i < _list.length; i++) {
-                CategorySubEntity data = _list[i];
-                if (data.title.toLowerCase().contains(value.toLowerCase())) {
-                  _tempList.add(data);
-                }
+          if (value.isEmpty && value.length == 0) {
+            BlocProvider.of<CategorySubBloc>(context)
+                .add(FetchCategorySub(id: widget.id));
+          } else if (value.isNotEmpty && value.length > 3) {
+            log("Value is ${value.length}");
+
+            List<CategorySubEntity> _tempList = new List();
+            for (int i = 0; i < _list.length; i++) {
+              CategorySubEntity data = _list[i];
+              if (data.introtext.toLowerCase().contains(value.toLowerCase())) {
+                _tempList.add(data);
               }
-              setState(() {
-                _list.clear();
-                _list.addAll(_tempList);
-              });
             }
+            setState(() {
+              _list.clear();
+              _list.addAll(_tempList);
+            });
           }
         },
         decoration: InputDecoration(
@@ -133,19 +127,30 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
     screenWidth = MediaQuery.of(context).size.width;
     screenheight = MediaQuery.of(context).size.height;
 
-    BlocProvider.of<CategorySubBloc>(context)
-        .add(FetchCategorySub(id: widget.id));
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: darkBG,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+            semanticLabel: "Back Button",
+          ),
+        ),
+      ),
+      resizeToAvoidBottomInset: false,
       primary: true,
       body: Container(
         alignment: Alignment.topCenter,
         color: darkBG,
-        margin: EdgeInsets.only(top: statusBarHeight),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
-          children: [
+          children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(
                 top: 10.0,
@@ -271,29 +276,51 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                 ),
                                                 SizedBox(
                                                   height: 50.0,
-                                                  child: Container(
-                                                    alignment: Alignment.center,
-                                                    decoration: BoxDecoration(
-                                                      color:
-                                                          Colors.redAccent[100],
-                                                      border: Border.all(
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      final page =
+                                                          MoreArticles(_list);
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              page,
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      decoration: BoxDecoration(
                                                         color:
-                                                            Colors.deepOrange,
-                                                        width: 2.0,
+                                                            Color(0xffF8EDD7),
+                                                        border: Border.all(
+                                                          color:
+                                                              Color(0xFFffd25d),
+                                                          width: 2.0,
+                                                        ),
+                                                        shape:
+                                                            BoxShape.rectangle,
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    5.0)),
                                                       ),
-                                                      shape: BoxShape.rectangle,
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  5.0)),
-                                                    ),
-                                                    child: Text(
-                                                      "Más artículos...",
-                                                      textAlign:
-                                                          TextAlign.center,
+                                                      child: Text(
+                                                        "Más artículos...",
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          inherit: true,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
+                                                SizedBox(
+                                                  height: 10.0,
+                                                )
                                               ],
                                             ),
                                           ),
@@ -334,7 +361,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                           right: 10.0,
                                         ),
                                         child: FloatingActionButton(
-                                          backgroundColor: Colors.red,
+                                          backgroundColor: Color(0xFFE36414),
                                           shape: BeveledRectangleBorder(
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(25),

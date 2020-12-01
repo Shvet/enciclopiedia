@@ -1,6 +1,5 @@
 import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
 import 'package:enciclopiedia_deportiva/common/style.dart';
-import 'package:enciclopiedia_deportiva/repository/category_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
@@ -8,21 +7,18 @@ import 'package:splashscreen/splashscreen.dart';
 import 'home.dart';
 
 class MyApp extends StatelessWidget {
-  final CategoryRepository repository;
-
-  MyApp({Key key, @required this.repository})
-      : assert(repository != null),
-        super(key: key);
+  MyApp({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final page = Home();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: buildLightTheme("en"),
       themeMode: ThemeMode.light,
       home: new SplashScreen(
         seconds: 3,
-        navigateAfterSeconds: Home(),
+        navigateAfterSeconds: page,
         backgroundColor: darkBG,
         image: Image.asset(
           "assets/images/ic_logo.png",

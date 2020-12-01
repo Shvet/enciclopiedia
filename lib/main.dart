@@ -50,14 +50,13 @@ Future<void> main() async {
             repository: repository,
           ),
         ),
-        BlocProvider(
+        BlocProvider<CategorySubBloc>(
           create: (context) => CategorySubBloc(
             repository: repository,
           ),
         ),
       ],
       child: MyApp(
-        repository: repository,
         key: _key,
       ),
     ),

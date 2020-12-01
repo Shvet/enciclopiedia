@@ -5,6 +5,7 @@ import 'package:enciclopiedia_deportiva/models/category_main_entity.dart';
 import 'package:enciclopiedia_deportiva/ui/custom_expansion_tile.dart'
     as custom;
 import 'package:enciclopiedia_deportiva/ui/goal_keep_list.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -124,25 +125,30 @@ class _HomeState extends State<Home> {
 
     for (var i = 0; i < subString.length; i++) {
       subList.add(InkWell(
-        child: Padding(
-          padding: EdgeInsets.only(left: 20.0, bottom: 5.0, top: 5.0),
-          child: Text(
-            subString[i].name,
-            style: TextStyle(
-              color: Colors.black87,
-              fontSize: 18.0,
-              fontWeight: FontWeight.w400,
-              inherit: true,
+        child: Container(
+          alignment: Alignment.topLeft,
+          width: double.maxFinite,
+          child: Padding(
+            padding: EdgeInsets.only(left: 20.0, bottom: 5.0, top: 5.0),
+            child: Text(
+              subString[i].name,
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 18.0,
+                fontWeight: FontWeight.w400,
+                inherit: true,
+              ),
             ),
           ),
         ),
         onTap: () {
+          final page = GoalKeeperList(
+            id: subString[i].id,
+          );
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => GoalKeeperList(
-                id: subString[i].id,
-              ),
+              builder: (context) => page,
             ),
           );
         },
@@ -167,7 +173,6 @@ class _HomeState extends State<Home> {
       body: Container(
         alignment: Alignment.topCenter,
         color: darkBG,
-        margin: EdgeInsets.only(top: statusBarHeight),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,

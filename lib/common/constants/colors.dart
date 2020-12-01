@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 const kEmptyColor = 0x0D000000;
-
-const primaryColor = Color(0x000000);
+//#E36414
+const primaryColor = Color(0xFFE36414);
 const primaryVariantColor = Color(0x000000);
 const secondaryColor = Color(0x000000);
 const secondaryVariantColor = Color(0x000000);
