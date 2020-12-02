@@ -27,7 +27,7 @@ Future<void> main() async {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle.dark.copyWith(
+      SystemUiOverlayStyle.light.copyWith(
           statusBarColor: darkBG,
           statusBarBrightness: Brightness.light,
           statusBarIconBrightness: Brightness.light,

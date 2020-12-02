@@ -28,7 +28,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
   int previousPageValue = 0;
   double _moveBar = 0.0;
   double screenWidth = 0.0;
-  double screenheight = 0.0;
+  double screenHeight = 0.0;
 
   @override
   void initState() {
@@ -123,9 +123,8 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
 
   @override
   Widget build(BuildContext context) {
-    var statusBarHeight = MediaQuery.of(context).padding.top;
     screenWidth = MediaQuery.of(context).size.width;
-    screenheight = MediaQuery.of(context).size.height;
+    screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
