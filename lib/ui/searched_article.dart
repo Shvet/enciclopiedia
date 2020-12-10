@@ -1,21 +1,20 @@
 import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
-import 'package:enciclopiedia_deportiva/models/category_sub_entity.dart';
+import 'package:enciclopiedia_deportiva/models/search_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SingleArticles extends StatefulWidget {
-  final CategorySubEntity categorySubEntity;
+class SearchedArticle extends StatefulWidget {
+  final SearchData entity;
 
-  const SingleArticles({Key key, @required this.categorySubEntity})
-      : super(key: key);
+  const SearchedArticle({Key key, @required this.entity}) : super(key: key);
 
   @override
-  _SingleArticlesState createState() => _SingleArticlesState();
+  _SearchedArticleState createState() => _SearchedArticleState();
 }
 
-class _SingleArticlesState extends State<SingleArticles> {
+class _SearchedArticleState extends State<SearchedArticle> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +77,7 @@ class _SingleArticlesState extends State<SingleArticles> {
                   child: Column(
                     children: [
                       Text(
-                        widget.categorySubEntity.title,
+                        widget.entity.title,
                         style: GoogleFonts.openSans(
                           fontWeight: FontWeight.w600,
                           fontSize: 18.0,
@@ -99,7 +98,7 @@ class _SingleArticlesState extends State<SingleArticles> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Html(
-                                data: widget.categorySubEntity.introtext,
+                                data: widget.entity.text,
                                 shrinkWrap: true,
                                 style: {
                                   "table": Style(

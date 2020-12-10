@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:enciclopiedia_deportiva/bloc/bloc.dart';
 import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
 import 'package:enciclopiedia_deportiva/common/constants/general.dart';
 import 'package:enciclopiedia_deportiva/repository/category_call_api.dart';
@@ -55,6 +56,10 @@ Future<void> main() async {
             repository: repository,
           ),
         ),
+        BlocProvider<SearchBloc>(
+            create: (context) => SearchBloc(
+                  repository: repository,
+                ))
       ],
       child: MyApp(
         key: _key,

@@ -3,8 +3,10 @@ import 'dart:convert';
 
 import 'package:enciclopiedia_deportiva/generated/json/category_entity_helper.dart';
 import 'package:enciclopiedia_deportiva/generated/json/category_sub_entity_helper.dart';
+import 'package:enciclopiedia_deportiva/generated/json/search_entity_helper.dart';
 import 'package:enciclopiedia_deportiva/models/category_entity.dart';
 import 'package:enciclopiedia_deportiva/models/category_sub_entity.dart';
+import 'package:enciclopiedia_deportiva/models/models.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
@@ -46,5 +48,18 @@ class CategoryApi {
           categorySubEntityFromJson(new CategorySubEntity(), categorySub),
     ));
     return list;
+  }
+
+  Future<SearchEntity> getSearchData(String keyword) async {
+    // &keyword=ten&ordering=newest&limit=10&token=MobileAppData21222324252627282930
+    final url = '$_baseUrl' +
+        "option=com_hoicoiapi&task=getContents&task=getSearchResult"
+            "&keyword=$keyword&ordering=newest&limit=10&token=MobileAppData21222324252627282930";
+    final result = await httpClient.get(url);
+    // log("result ${result.body}");
+
+    SearchEntity entity =
+        searchEntityFromJson(new SearchEntity(), jsonDecode(result.body));
+    return entity;
   }
 }

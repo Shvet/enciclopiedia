@@ -67,8 +67,8 @@ categorySubEntityFromJson(CategorySubEntity data, Map<String, dynamic> json) {
   if (json['metadesc'] != null) {
     data.metadesc = json['metadesc']?.toString();
   }
-  if (json['access-view'] != null) {
-    data.access = json['access-view']?.toString();
+  if (json['access'] != null) {
+    data.access = json['access']?.toString();
   }
   if (json['hits'] != null) {
     data.hits = json['hits']?.toString();
@@ -215,7 +215,7 @@ categorySubParamsFromJson(CategorySubParams data, Map<String, dynamic> json) {
   if (json['robots'] != null) {
     data.robots = json['robots'];
   }
-  if (json['access'] != null) {
+  if (json['access-view'] != null) {
     data.access = json['access-view'];
   }
   return data;
@@ -228,6 +228,6 @@ Map<String, dynamic> categorySubParamsToJson(CategorySubParams entity) {
   data['page_description'] = entity.pageDescription;
   data['page_rights'] = entity.pageRights;
   data['robots'] = entity.robots;
-  data['access'] = entity.access;
+  data['access-view'] = entity.access;
   return data;
 }
