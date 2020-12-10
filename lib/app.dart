@@ -1,4 +1,3 @@
-import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
 import 'package:enciclopiedia_deportiva/common/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
       home: new SplashScreen(
         seconds: 3,
         navigateAfterSeconds: page,
-        backgroundColor: darkBG,
+        backgroundColor: Color(0xFF000000),
         image: Image.asset(
           "assets/images/ic_logo.png",
           scale: 0.8,

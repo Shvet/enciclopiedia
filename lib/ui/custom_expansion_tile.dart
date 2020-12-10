@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 const Duration _kExpand = Duration(milliseconds: 200);

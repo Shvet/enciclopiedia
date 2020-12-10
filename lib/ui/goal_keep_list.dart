@@ -2,8 +2,10 @@ import 'dart:developer';
 
 import 'package:enciclopiedia_deportiva/bloc/bloc.dart';
 import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
+import 'package:enciclopiedia_deportiva/common/constants/general.dart';
 import 'package:enciclopiedia_deportiva/models/category_sub_entity.dart';
 import 'package:enciclopiedia_deportiva/ui/more_articales.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -125,7 +127,282 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
-
+    if (isIos) {
+      return CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          backgroundColor: darkBG,
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+              semanticLabel: "Back Button",
+            ),
+          ),
+        ),
+        resizeToAvoidBottomInset: false,
+        child: Container(
+          alignment: Alignment.topCenter,
+          color: darkBG,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 10.0,
+                ),
+                child: SizedBox(
+                  height: 100,
+                  child: Image.asset(
+                    "assets/images/logo.png",
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.center,
+                    scale: 0.2,
+                    height: 30,
+                    width: 250,
+                    semanticLabel: "Logo",
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Card(
+                  elevation: 20.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadiusDirectional.only(
+                      topStart: Radius.circular(30.0),
+                      topEnd: Radius.circular(30.0),
+                    ),
+                  ),
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      top: 20.0,
+                      left: 10.0,
+                      right: 10.0,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        _searchBox(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        BlocBuilder<CategorySubBloc, CategorySubState>(
+                          builder: (context, state) {
+                            if (state is CategorySubInitial) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (state is CategoryError) {
+                              return Center(
+                                child: Text("There is Error in "
+                                    "Fetching data"),
+                              );
+                            }
+                            if (state is CategorySubLoaded) {
+                              _list = state.list;
+                              return Expanded(
+                                child: Stack(
+                                  alignment: AlignmentDirectional.bottomCenter,
+                                  children: <Widget>[
+                                    PageView.builder(
+                                      physics: ClampingScrollPhysics(),
+                                      itemCount: _list.length,
+                                      controller: controller,
+                                      onPageChanged: (int page) {
+                                        getChangedPageAndMoveBar(page);
+                                      },
+                                      itemBuilder: (context, index) => Column(
+                                        children: [
+                                          Text(
+                                            _list[index].title,
+                                            style: GoogleFonts.openSans(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18.0,
+                                              color: darkBG,
+                                            ),
+                                            textDirection: TextDirection.ltr,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          Divider(
+                                            color: darkBG,
+                                            thickness: 1.0,
+                                          ),
+                                          Expanded(
+                                            child: SingleChildScrollView(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Html(
+                                                    data:
+                                                        _list[index].introtext,
+                                                    shrinkWrap: true,
+                                                    style: {
+                                                      "table": Style(
+                                                        border: Border(
+                                                            bottom: BorderSide(
+                                                                color: Colors
+                                                                    .grey)),
+                                                      ),
+                                                      "tr": Style(
+                                                        border: Border(
+                                                          bottom: BorderSide(
+                                                              color:
+                                                                  Colors.grey),
+                                                        ),
+                                                      ),
+                                                      "th": Style(
+                                                        padding:
+                                                            EdgeInsets.all(6),
+                                                        backgroundColor:
+                                                            Colors.grey,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                      "td": Style(
+                                                        padding:
+                                                            EdgeInsets.all(6),
+                                                      ),
+                                                    },
+                                                  ),
+                                                  SizedBox(
+                                                    height: 50.0,
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        final page =
+                                                            MoreArticles(_list);
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    page,
+                                                          ),
+                                                        );
+                                                      },
+                                                      child: Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Color(0xffF8EDD7),
+                                                          border: Border.all(
+                                                            color: Color(
+                                                                0xFFffd25d),
+                                                            width: 2.0,
+                                                          ),
+                                                          shape: BoxShape
+                                                              .rectangle,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          5.0)),
+                                                        ),
+                                                        child: Text(
+                                                          "Más artículos...",
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                            inherit: true,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    /*Stack(
+                                    alignment: AlignmentDirectional.topStart,
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.only(bottom: 35),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            for (var i in _list) slidingBar(),
+                                          ],
+                                        ),
+                                      ),
+                                      AnimatedContainer(
+                                        duration: Duration(milliseconds: 100),
+                                        curve: Curves.fastOutSlowIn,
+                                        margin: EdgeInsets.only(
+                                            bottom: 35,
+                                            left: screenWidth * _moveBar),
+                                        child: movingBar(),
+                                      ),
+                                    ],
+                                  ),*/
+                                    Visibility(
+                                      visible: true,
+                                      child: Align(
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                            bottom: 10.0,
+                                            right: 10.0,
+                                          ),
+                                          child: FloatingActionButton(
+                                            backgroundColor: Color(0xFFE36414),
+                                            shape: BeveledRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(25),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              controller.jumpToPage(
+                                                  currentPageValue + 1);
+                                              currentPageValue += 1;
+                                            },
+                                            child: Icon(Icons.arrow_forward),
+                                          ),
+                                        ),
+                                        alignment:
+                                            AlignmentDirectional.bottomEnd,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            }
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: darkBG,
