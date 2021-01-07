@@ -2,6 +2,7 @@ import 'package:enciclopiedia_deportiva/generated/json/base/json_convert_content
 import 'package:enciclopiedia_deportiva/generated/json/base/json_field.dart';
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class CategorySubEntity extends Equatable with JsonConvert<CategorySubEntity> {
   String id;
   String title;

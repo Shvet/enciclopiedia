@@ -26,6 +26,34 @@ class CategorySubBloc extends Bloc<CategorySubEvent, CategorySubState> {
       try {
         final List<CategorySubEntity> list =
             await repository.fetchSubCategory(event.id);
+
+        /*List<CategorySubEntity> temp = new List();
+        for (CategorySubEntity sub in list) {
+          String introtext = sub.introtext
+              .replaceAll("<span style=\"font-size: 14pt;\">", "")
+              .replaceAll("<\/span>", "");
+          log(introtext);
+          CategorySubEntity entity = new CategorySubEntity();
+          entity.introtext = introtext;
+          entity.title = sub.title;
+          entity.metadesc = sub.metadesc;
+          entity.state = sub.state;
+          entity.fulltext = sub.fulltext;
+          entity.id = sub.id;
+          entity.access = sub.access;
+          entity.xreference = sub.xreference;
+          entity.urls = sub.urls;
+          entity.readmore = sub.readmore;
+          entity.ratingCount = sub.ratingCount;
+          entity.modifiedByName = sub.modifiedByName;
+          entity.layout = sub.layout;
+          entity.language = sub.language;
+          entity.state = sub.state;
+          entity.metadesc = sub.metadesc;
+          entity.images = sub.images;
+          entity.featured = sub.featured;
+          temp.add(entity);
+        }*/
         yield CategorySubLoaded(list: list);
       } catch (error) {
         log("Error $error");

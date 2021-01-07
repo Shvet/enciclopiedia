@@ -5,6 +5,7 @@ import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
 import 'package:enciclopiedia_deportiva/common/constants/general.dart';
 import 'package:enciclopiedia_deportiva/repository/category_call_api.dart';
 import 'package:enciclopiedia_deportiva/repository/category_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,7 @@ import 'bloc/category_sub_bloc.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpClient.enableTimelineLogging = true;
+
   foundation.LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('google_fonts/LICENSE.txt');
     yield foundation.LicenseEntryWithLineBreaks(['google_fonts'], license);

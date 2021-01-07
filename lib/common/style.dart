@@ -1,4 +1,5 @@
 import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'config/fonts.dart';
@@ -92,4 +93,12 @@ TextTheme _buildTextTheme(TextTheme base, String language) {
         bodyColor: grey900,
       )
       .copyWith(headline4: eHeadlineTheme(base).headline4.copyWith());
+}
+
+CupertinoThemeData buildLightCupertinoTheme(BuildContext context) {
+  CupertinoThemeData cupertinoTheme = CupertinoTheme.of(context);
+  return cupertinoTheme.copyWith(
+    barBackgroundColor: Color(0xFF000000),
+    primaryColor: darkBG,
+  );
 }

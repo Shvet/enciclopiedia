@@ -1,5 +1,4 @@
 import 'package:enciclopiedia_deportiva/models/category_entity.dart';
-import 'package:equatable/equatable.dart';
 
 categoryEntityFromJson(CategoryEntity data, Map<String, dynamic> json) {
   if (json['id'] != null) {
