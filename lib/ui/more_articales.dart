@@ -108,6 +108,7 @@ class _MoreArticlesState extends State<MoreArticles> {
         resizeToAvoidBottomInset: false,
         navigationBar: CupertinoNavigationBar(
           backgroundColor: darkBG,
+          brightness: Brightness.dark,
           leading: CupertinoNavigationBarBackButton(
             onPressed: () {
               Navigator.of(context).pop();
@@ -231,6 +232,7 @@ class _MoreArticlesState extends State<MoreArticles> {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: darkBG,
+          brightness: Brightness.dark,
           leading: GestureDetector(
             onTap: () {
               Navigator.of(context).pop();

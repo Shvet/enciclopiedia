@@ -174,6 +174,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
       return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           backgroundColor: darkBG,
+          brightness: Brightness.dark,
           leading: CupertinoNavigationBarBackButton(
             previousPageTitle: "",
             onPressed: () {
@@ -272,12 +273,12 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                           final page = SearchedArticle(
                                             entity: state.list.data[index],
                                           );
-                                            Navigator.push(
-                                              context,
-                                              CupertinoPageRoute(
-                                                builder: (context) => page,
-                                              ),
-                                            );
+                                          Navigator.push(
+                                            context,
+                                            CupertinoPageRoute(
+                                              builder: (context) => page,
+                                            ),
+                                          );
                                         },
                                         title: Text(
                                           state.list.data[index].title,
@@ -467,6 +468,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: darkBG,
+          brightness: Brightness.dark,
           leading: GestureDetector(
             onTap: () {
               Navigator.of(context).pop();

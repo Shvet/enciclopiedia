@@ -24,6 +24,7 @@ class _SingleArticlesState extends State<SingleArticles> {
         resizeToAvoidBottomInset: false,
         navigationBar: CupertinoNavigationBar(
           backgroundColor: darkBG,
+          brightness: Brightness.dark,
           leading: CupertinoNavigationBarBackButton(
             onPressed: () {
               Navigator.of(context).pop();
@@ -134,6 +135,7 @@ class _SingleArticlesState extends State<SingleArticles> {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: darkBG,
+          brightness: Brightness.dark,
           leading: GestureDetector(
             onTap: () {
               Navigator.of(context).pop();
@@ -212,7 +214,7 @@ class _SingleArticlesState extends State<SingleArticles> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Html(
-                                  data: widget.categorySubEntity.introtext,
+                                  data: widget.categorySubEntity.introtext.replaceAll("<td></td>", ""),
                                   shrinkWrap: true,
                                   style: {
                                     "table": Style(

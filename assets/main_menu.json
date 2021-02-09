@@ -6,11 +6,11 @@
     "sub": [
       {
         "name": "Fútbol Ecuador",
-        "id": "18"
+        "id": "19"
       },
       {
         "name": "Fútbol Internacional",
-        "id": "19"
+        "id": "18"
       }
     ]
   },
@@ -50,10 +50,6 @@
     "image": "assets/images/svg/bicycle.svg",
     "sub": [
       {
-        "name": "Automovilismo Ecuador ",
-        "id": "44"
-      },
-      {
         "name": "Automovilismo Internacional",
         "id": "30"
       }
@@ -64,10 +60,6 @@
     "title": "Ciclismo",
     "image": "assets/images/svg/bicycle.svg",
     "sub": [
-      {
-        "name": "Ciclismo Ecuador",
-        "id": "33"
-      },
       {
         "name": "Ciclismo Internacional",
         "id": "32"

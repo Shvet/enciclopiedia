@@ -26,8 +26,7 @@ Future<void> main() async {
   });
 
   if (!isWeb) {
-    await SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle.light.copyWith(
@@ -81,8 +80,7 @@ class SimpleBlocObserver implements BlocObserver {
   void onEvent(Bloc<dynamic, dynamic> bloc, Object event) {}
 
   @override
-  void onTransition(
-      Bloc<dynamic, dynamic> bloc, Transition<dynamic, dynamic> transition) {}
+  void onTransition(Bloc<dynamic, dynamic> bloc, Transition<dynamic, dynamic> transition) {}
 
   @override
   void onClose(Cubit cubit) {}

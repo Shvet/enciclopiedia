@@ -23,6 +23,7 @@ class _SearchedArticleState extends State<SearchedArticle> {
       return CupertinoPageScaffold(
         resizeToAvoidBottomInset: false,
         navigationBar: CupertinoNavigationBar(
+          brightness: Brightness.dark,
           backgroundColor: darkBG,
           leading: CupertinoNavigationBarBackButton(
             onPressed: () {
@@ -134,6 +135,7 @@ class _SearchedArticleState extends State<SearchedArticle> {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: darkBG,
+          brightness: Brightness.dark,
           leading: GestureDetector(
             onTap: () {
               Navigator.of(context).pop();
