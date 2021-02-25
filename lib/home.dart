@@ -128,8 +128,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    screenWidth = MediaQuery.of(context).size.width;
-    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.maybeOf(context).size.width;
+    screenHeight = MediaQuery.maybeOf(context).size.height;
     bool isExpanded = false;
     if (isIos) {
       return CupertinoPageScaffold(

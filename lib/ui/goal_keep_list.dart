@@ -168,8 +168,8 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
 
   @override
   Widget build(BuildContext context) {
-    screenWidth = MediaQuery.of(context).size.width;
-    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.maybeOf(context).size.width;
+    screenHeight = MediaQuery.maybeOf(context).size.height;
     if (isIos) {
       return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
