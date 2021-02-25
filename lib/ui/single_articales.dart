@@ -26,6 +26,7 @@ class _SingleArticlesState extends State<SingleArticles> {
           backgroundColor: darkBG,
           brightness: Brightness.dark,
           leading: CupertinoNavigationBarBackButton(
+            color: Colors.white,
             onPressed: () {
               Navigator.of(context).pop();
             },

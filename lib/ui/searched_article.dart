@@ -26,6 +26,7 @@ class _SearchedArticleState extends State<SearchedArticle> {
           brightness: Brightness.dark,
           backgroundColor: darkBG,
           leading: CupertinoNavigationBarBackButton(
+            color: Colors.white,
             onPressed: () {
               Navigator.of(context).pop();
             },

@@ -110,6 +110,7 @@ class _MoreArticlesState extends State<MoreArticles> {
           backgroundColor: darkBG,
           brightness: Brightness.dark,
           leading: CupertinoNavigationBarBackButton(
+            color: Colors.white,
             onPressed: () {
               Navigator.of(context).pop();
             },

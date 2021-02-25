@@ -176,7 +176,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
           backgroundColor: darkBG,
           brightness: Brightness.dark,
           leading: CupertinoNavigationBarBackButton(
-            previousPageTitle: "",
+            color: Colors.white,
             onPressed: () {
               Navigator.of(context).pop();
             },
