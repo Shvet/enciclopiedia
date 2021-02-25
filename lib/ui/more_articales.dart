@@ -32,7 +32,7 @@ class _MoreArticlesState extends State<MoreArticles> {
         cursorColor: Colors.black,
         onSubmitted: (value) {
           if (value.isNotEmpty) {
-            List<CategorySubEntity> _tempList = new List();
+            List<CategorySubEntity> _tempList = new List.empty(growable: true);
             for (int i = 0; i < _list.length; i++) {
               CategorySubEntity data = _list[i];
               if (data.title.toLowerCase().contains(value.toLowerCase())) {
@@ -53,7 +53,7 @@ class _MoreArticlesState extends State<MoreArticles> {
               _list = widget.list;
             });
           } else if (value.isNotEmpty && value.length > 3) {
-            List<CategorySubEntity> _tempList = new List();
+            List<CategorySubEntity> _tempList = new List.empty(growable: true);
             for (int i = 0; i < _list.length; i++) {
               CategorySubEntity data = _list[i];
               if (data.title.toLowerCase().contains(value.toLowerCase())) {
