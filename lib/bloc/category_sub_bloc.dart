@@ -24,8 +24,7 @@ class CategorySubBloc extends Bloc<CategorySubEvent, CategorySubState> {
     if (event is FetchCategorySub) {
       yield CategorySubLoading();
       try {
-        final List<CategorySubEntity> list =
-            await repository.fetchSubCategory(event.id);
+        final List<CategorySubEntity> list = await repository.fetchSubCategory(event.id);
 
         /*List<CategorySubEntity> temp = new List();
         for (CategorySubEntity sub in list) {
@@ -64,13 +63,11 @@ class CategorySubBloc extends Bloc<CategorySubEvent, CategorySubState> {
     if (event is SearchCategorySub) {
       log("SearchCategorySub start");
       try {
-        final List<CategorySubEntity> _tempList = new List();
+        final List<CategorySubEntity> _tempList = [];
 
         for (int i = 0; i < event.list.length; i++) {
           CategorySubEntity data = event.list[i];
-          if (data.introtext
-              .toLowerCase()
-              .contains(event.search.toLowerCase())) {
+          if (data.introtext.toLowerCase().contains(event.search.toLowerCase())) {
             log("${data.introtext}");
             _tempList.add(data);
           }

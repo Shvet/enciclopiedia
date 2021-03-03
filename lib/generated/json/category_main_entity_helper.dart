@@ -11,7 +11,7 @@ categoryMainEntityFromJson(CategoryMainEntity data, Map<String, dynamic> json) {
     data.image = json['image']?.toString();
   }
   if (json['sub'] != null) {
-    data.sub = new List<CategoryMainSub>();
+    data.sub = <CategoryMainSub>[];
     (json['sub'] as List).forEach((v) {
       data.sub.add(new CategoryMainSub().fromJson(v));
     });

@@ -22,7 +22,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   TextEditingController _searchEdit;
-  List<CategoryMainEntity> _list = new List();
+  List<CategoryMainEntity> _list = [];
   bool isSearching = false;
   PageController controller;
   int currentPageValue = 0;
@@ -80,7 +80,7 @@ class _HomeState extends State<Home> {
   }
 
   List<Widget> showSubList(List<CategoryMainSub> subString) {
-    List<Widget> subList = new List.empty(growable: true);
+    List<Widget> subList = [];
     for (var i = 0; i < subString.length; i++) {
       subList.add(InkWell(
         child: Container(

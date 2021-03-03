@@ -2,7 +2,7 @@ import 'package:enciclopiedia_deportiva/models/search_entity.dart';
 
 searchEntityFromJson(SearchEntity data, Map<String, dynamic> json) {
   if (json['data'] != null) {
-    data.data = new List<SearchData>();
+    data.data = <SearchData>[];
     (json['data'] as List).forEach((v) {
       data.data.add(new SearchData().fromJson(v));
     });

@@ -36,8 +36,7 @@ class JsonConvert<T> {
       case SearchPagination:
         return searchPaginationFromJson(data as SearchPagination, json) as T;
       case CategoryMainEntity:
-        return categoryMainEntityFromJson(data as CategoryMainEntity, json)
-            as T;
+        return categoryMainEntityFromJson(data as CategoryMainEntity, json) as T;
       case CategoryMainSub:
         return categoryMainSubFromJson(data as CategoryMainSub, json) as T;
     }
@@ -91,21 +90,21 @@ class JsonConvert<T> {
 
   //list is returned by type
   static M _getListChildType<M>(List<Map> data) {
-    if (List<CategorySubEntity>() is M) {
+    if (<CategorySubEntity>[] is M) {
       return data.map((e) => CategorySubEntity().fromJson(e)).toList() as M;
-    } else if (List<CategorySubParams>() is M) {
+    } else if (<CategorySubParams>[] is M) {
       return data.map((e) => CategorySubParams().fromJson(e)).toList() as M;
-    } else if (List<CategoryEntity>() is M) {
+    } else if (<CategoryEntity>[] is M) {
       return data.map((e) => CategoryEntity().fromJson(e)).toList() as M;
-    } else if (List<SearchEntity>() is M) {
+    } else if (<SearchEntity>[] is M) {
       return data.map((e) => SearchEntity().fromJson(e)).toList() as M;
-    } else if (List<SearchData>() is M) {
+    } else if (<SearchData>[] is M) {
       return data.map((e) => SearchData().fromJson(e)).toList() as M;
-    } else if (List<SearchPagination>() is M) {
+    } else if (<SearchPagination>[] is M) {
       return data.map((e) => SearchPagination().fromJson(e)).toList() as M;
-    } else if (List<CategoryMainEntity>() is M) {
+    } else if (<CategoryMainEntity>[] is M) {
       return data.map((e) => CategoryMainEntity().fromJson(e)).toList() as M;
-    } else if (List<CategoryMainSub>() is M) {
+    } else if (<CategoryMainSub>[] is M) {
       return data.map((e) => CategoryMainSub().fromJson(e)).toList() as M;
     }
     return null;

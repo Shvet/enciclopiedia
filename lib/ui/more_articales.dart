@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
 import 'package:enciclopiedia_deportiva/common/constants/general.dart';
 import 'package:enciclopiedia_deportiva/models/category_sub_entity.dart';
@@ -32,7 +30,7 @@ class _MoreArticlesState extends State<MoreArticles> {
         cursorColor: Colors.black,
         onSubmitted: (value) {
           if (value.isNotEmpty) {
-            List<CategorySubEntity> _tempList = new List.empty(growable: true);
+            List<CategorySubEntity> _tempList = [];
             for (int i = 0; i < _list.length; i++) {
               CategorySubEntity data = _list[i];
               if (data.title.toLowerCase().contains(value.toLowerCase())) {
@@ -47,13 +45,12 @@ class _MoreArticlesState extends State<MoreArticles> {
         },
         onChanged: (value) {
           if (value.isEmpty && value.length == 0) {
-            log("Main List size ${widget.list.length}");
             setState(() {
               _list.clear();
               _list = widget.list;
             });
           } else if (value.isNotEmpty && value.length > 3) {
-            List<CategorySubEntity> _tempList = new List.empty(growable: true);
+            List<CategorySubEntity> _tempList = [];
             for (int i = 0; i < _list.length; i++) {
               CategorySubEntity data = _list[i];
               if (data.title.toLowerCase().contains(value.toLowerCase())) {

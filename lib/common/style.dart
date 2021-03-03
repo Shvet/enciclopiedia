@@ -29,12 +29,13 @@ ThemeData buildLightTheme(String language) {
   return base.copyWith(
     colorScheme: colorScheme,
     cardColor: Colors.white,
-    textSelectionColor: Colors.white,
+    textSelectionTheme: TextSelectionThemeData(
+      selectionColor: Colors.white,
+      cursorColor: kLightAccent,
+    ),
     errorColor: errorRed,
-    buttonTheme: const ButtonThemeData(
-        colorScheme: colorScheme,
-        textTheme: ButtonTextTheme.normal,
-        buttonColor: darkBG),
+    buttonTheme:
+        const ButtonThemeData(colorScheme: colorScheme, textTheme: ButtonTextTheme.normal, buttonColor: darkBG),
     primaryColorLight: lightBG,
     primaryIconTheme: _customIconTheme(base.iconTheme),
     textTheme: _buildTextTheme(base.textTheme, language),
@@ -45,7 +46,6 @@ ThemeData buildLightTheme(String language) {
     backgroundColor: Colors.white,
     primaryColor: kLightPrimary,
     accentColor: kLightAccent,
-    cursorColor: kLightAccent,
     scaffoldBackgroundColor: lightBG,
     appBarTheme: const AppBarTheme(
       elevation: 0,
@@ -72,8 +72,7 @@ ThemeData buildLightTheme(String language) {
 TextTheme _buildTextTheme(TextTheme base, String language) {
   return eTextTheme(base, language)
       .copyWith(
-        headline5: base.headline5
-            .copyWith(fontWeight: FontWeight.w600, color: Colors.red),
+        headline5: base.headline5.copyWith(fontWeight: FontWeight.w600, color: Colors.red),
         headline6: base.headline6.copyWith(fontSize: 18.0),
         caption: base.caption.copyWith(
           fontWeight: FontWeight.w600,
