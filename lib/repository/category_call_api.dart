@@ -11,7 +11,7 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 class CategoryApi {
-  final _baseUrl = "http://www.enciclopediadeportiva.com/index.php?";
+  final _baseUrl = "https://www.enciclopediadeportiva.com/index.php?";
   final http.Client httpClient;
 
   CategoryApi({@required this.httpClient}) : assert(httpClient != null);
