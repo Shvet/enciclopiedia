@@ -241,7 +241,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                             builder: (context, state) {
                               if (state is SearchError) {
                                 return Center(
-                                  child: Text("No se encontraron resultados"), //No se encontraron resultados
+                                  child: Text(state.error), //No se encontraron resultados
                                 );
                               }
                               if (state is SearchLoading) {
@@ -315,7 +315,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                               }
                               if (state is CategorySubError) {
                                 return Center(
-                                  child: Text("There is Error in Fetching data"), //There is Error in Fetching data
+                                  child: Text(state.error), //There is Error in Fetching data
                                 );
                               }
                               if (state is CategorySubLoaded) {
