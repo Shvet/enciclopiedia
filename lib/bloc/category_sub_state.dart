@@ -20,4 +20,11 @@ class CategorySubLoaded extends CategorySubState {
   List<Object> get props => [list];
 }
 
-class CategorySubError extends CategorySubState {}
+class CategorySubError extends CategorySubState {
+  final String error;
+
+  CategorySubError(this.error);
+
+  @override
+  List<Object> get props => [error];
+}

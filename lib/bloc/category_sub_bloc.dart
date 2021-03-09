@@ -18,14 +18,10 @@ class CategorySubBloc extends Bloc<CategorySubEvent, CategorySubState> {
         super(CategorySubInitial());
 
   @override
-  Stream<CategorySubState> mapEventToState(
-    CategorySubEvent event,
-  ) async* {
+  Stream<CategorySubState> mapEventToState(CategorySubEvent event) async* {
     if (event is FetchCategorySub) {
       yield CategorySubLoading();
       try {
-        final List<CategorySubEntity> list = await repository.fetchSubCategory(event.id);
-
         /*List<CategorySubEntity> temp = new List();
         for (CategorySubEntity sub in list) {
           String introtext = sub.introtext
@@ -53,10 +49,10 @@ class CategorySubBloc extends Bloc<CategorySubEvent, CategorySubState> {
           entity.featured = sub.featured;
           temp.add(entity);
         }*/
-        yield CategorySubLoaded(list: list);
+        yield CategorySubLoaded(list: await repository.fetchSubCategory(event.id));
       } catch (error) {
         log("Error $error");
-        yield CategorySubError();
+        yield CategorySubError(error.toString());
       }
     }
 
@@ -74,7 +70,7 @@ class CategorySubBloc extends Bloc<CategorySubEvent, CategorySubState> {
         }
         yield CategorySubLoaded(list: _tempList);
       } catch (e) {
-        yield CategorySubError();
+        yield CategorySubError(e.toString());
       }
     }
   }

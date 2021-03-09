@@ -102,6 +102,7 @@ class _HomeState extends State<Home> {
         onTap: () {
           final page = GoalKeeperList(
             id: subString[i].id,
+            name: subString[i].name,
           );
           if (isIos) {
             Navigator.push(

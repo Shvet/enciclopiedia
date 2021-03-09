@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:enciclopiedia_deportiva/models/models.dart';
 import 'package:enciclopiedia_deportiva/repository/category_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 part 'search_event.dart';
@@ -23,10 +24,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     if (event is SearchData) {
       yield SearchLoading();
       try {
-        final SearchEntity list = await repository.searchData(event.keyWord);
-        yield SearchLoaded(list: list);
+        yield SearchLoaded(list: await repository.searchData(event.keyWord));
       } catch (error) {
-        yield SearchError();
+        yield SearchError(error.toString());
       }
     }
   }

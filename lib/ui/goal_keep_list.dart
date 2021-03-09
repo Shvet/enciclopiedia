@@ -11,11 +11,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:social_share/social_share.dart';
 
 class GoalKeeperList extends StatefulWidget {
   final String id;
+  final String name;
 
-  GoalKeeperList({Key key, @required this.id}) : super(key: key);
+  GoalKeeperList({Key key, @required this.id, @required this.name}) : super(key: key);
 
   @override
   _GoalKeeperListState createState() => _GoalKeeperListState();
@@ -23,7 +25,7 @@ class GoalKeeperList extends StatefulWidget {
 
 class _GoalKeeperListState extends State<GoalKeeperList> {
   TextEditingController _searchEdit;
-  List<CategorySubEntity> _list;
+  List<CategorySubEntity> _list = <CategorySubEntity>[];
   PageController controller;
   int currentPageValue = 0;
   int previousPageValue = 0;
@@ -239,7 +241,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                             builder: (context, state) {
                               if (state is SearchError) {
                                 return Center(
-                                  child: Text("No se encontraron resultados"),
+                                  child: Text("No se encontraron resultados"), //No se encontraron resultados
                                 );
                               }
                               if (state is SearchLoading) {
@@ -311,14 +313,13 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                   child: CircularProgressIndicator(),
                                 );
                               }
-                              if (state is CategoryError) {
+                              if (state is CategorySubError) {
                                 return Center(
-                                  child: Text("There is Error in "
-                                      "Fetching data"),
+                                  child: Text("There is Error in Fetching data"), //There is Error in Fetching data
                                 );
                               }
                               if (state is CategorySubLoaded) {
-                                _list = state.list;
+                                _list.addAll(state.list);
                                 return Expanded(
                                   child: Stack(
                                     alignment: AlignmentDirectional.bottomCenter,
@@ -353,28 +354,23 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
-                                                    Html(
-                                                      data: _list[index]
-                                                          .introtext
-                                                          .replaceAll("style=\"font-size: 14pt;\"", "")
-                                                          .replaceAll("style=\"font-size: 12pt;\"", "")
-                                                          .trim(),
-                                                      shrinkWrap: true,
-                                                      style: {
-                                                        "table": Style(
-                                                          border: Border(
-                                                            bottom: BorderSide(color: Colors.grey),
-                                                          ),
-                                                        ),
-                                                        "tr": Style(
-                                                          border: Border(
-                                                            bottom: BorderSide(color: Colors.grey),
-                                                          ),
-                                                        ),
-                                                        "td": Style(
-                                                          fontSize: FontSize(10.0),
-                                                        ),
-                                                      },
+                                                    _html(_list[index].introtext),
+                                                    SizedBox(
+                                                      height: 30.0,
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          SocialShare.shareTwitter(
+                                                              "Enciclopedia Deportiva-${widget.name}",
+                                                              trailingText: "",
+                                                              hashtags: ["EnciclopediaDeportiva"],
+                                                              url:
+                                                                  "https://apps.apple.com/us/app/enciclopedia-deportiva/id1542621011");
+                                                        },
+                                                        child: Image.asset("assets/images/tweeter.png"),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10.0,
                                                     ),
                                                     SizedBox(
                                                       height: 50.0,
@@ -612,12 +608,11 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                               }
                               if (state is CategoryError) {
                                 return Center(
-                                  child: Text("There is Error in "
-                                      "Fetching data"),
+                                  child: Text("There is Error in Fetching data"),
                                 );
                               }
                               if (state is CategorySubLoaded) {
-                                _list = state.list;
+                                _list.addAll(state.list);
                                 return Expanded(
                                   child: Stack(
                                     alignment: AlignmentDirectional.bottomCenter,
@@ -653,6 +648,23 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     _html(_list[index].introtext),
+                                                    SizedBox(
+                                                      height: 30.0,
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          SocialShare.shareTwitter(
+                                                              "Enciclopedia Deportiva-${widget.name}",
+                                                              trailingText: "",
+                                                              hashtags: ["EnciclopediaDeportiva"],
+                                                              url:
+                                                                  "https://play.google.com/store/apps/details?id=com.str.enciclopiedia_deportiva");
+                                                        },
+                                                        child: Image.asset("assets/images/tweeter.png"),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10.0,
+                                                    ),
                                                     SizedBox(
                                                       height: 50.0,
                                                       child: GestureDetector(

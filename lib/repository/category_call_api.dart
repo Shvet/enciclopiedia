@@ -17,18 +17,15 @@ class CategoryApi {
   CategoryApi({@required this.httpClient}) : assert(httpClient != null);
 
   Future<List<CategoryEntity>> fetchCategories() async {
-    final url = '$_baseUrl' +
-        "option=com_hoicoiapi&task=getContents&token=MobileAppData21222324252627282930";
+    final url = '$_baseUrl' + "option=com_hoicoiapi&task=getContents&token=MobileAppData21222324252627282930";
     final result = await httpClient.get(url);
     if (result.statusCode != 200) {
       throw new Exception("error getting categories");
     }
     List<dynamic> jsonArray = jsonDecode(result.body);
 
-    List<CategoryEntity> list = jsonArray
-        .map((categoryEntity) =>
-            categoryEntityFromJson(new CategoryEntity(), categoryEntity))
-        .toList();
+    List<CategoryEntity> list =
+        jsonArray.map((categoryEntity) => categoryEntityFromJson(new CategoryEntity(), categoryEntity)).toList();
     return list;
   }
 
@@ -44,8 +41,7 @@ class CategoryApi {
     List<dynamic> jsonArray = jsonDecode(result.body);
 
     List<CategorySubEntity> list = List<CategorySubEntity>.from(jsonArray.map(
-      (categorySub) =>
-          categorySubEntityFromJson(new CategorySubEntity(), categorySub),
+      (categorySub) => categorySubEntityFromJson(new CategorySubEntity(), categorySub),
     ));
     return list;
   }
@@ -58,8 +54,7 @@ class CategoryApi {
     final result = await httpClient.get(url);
     // log("result ${result.body}");
 
-    SearchEntity entity =
-        searchEntityFromJson(new SearchEntity(), jsonDecode(result.body));
+    SearchEntity entity = searchEntityFromJson(new SearchEntity(), jsonDecode(result.body));
     return entity;
   }
 }

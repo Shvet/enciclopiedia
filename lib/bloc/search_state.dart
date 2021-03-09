@@ -20,4 +20,11 @@ class SearchLoaded extends SearchState {
   List<Object> get props => [list];
 }
 
-class SearchError extends SearchState {}
+class SearchError extends SearchState {
+  final String error;
+
+  SearchError(this.error);
+
+  @override
+  List<Object> get props => [error];
+}

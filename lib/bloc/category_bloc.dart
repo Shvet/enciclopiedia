@@ -22,11 +22,10 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     if (event is FetchCategory) {
       yield CategoryLoading();
       try {
-        final List<CategoryEntity> entity = await repository.fetchCategory();
-        yield CategoryLoaded(entity: entity);
+        yield CategoryLoaded(entity: await repository.fetchCategory());
       } catch (e) {
         log.log(e.toString());
-        yield CategoryError();
+        yield CategoryError(e.toString());
       }
     } else {
       log.log("Fetching Category else");
