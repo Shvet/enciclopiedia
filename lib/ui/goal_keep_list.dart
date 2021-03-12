@@ -366,12 +366,21 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                               url:
                                                                   "https://apps.apple.com/us/app/enciclopedia-deportiva/id1542621011");
                                                           s.then((value) {
-                                                            final snackBar = SnackBar(
-                                                              content: Text(value),
-                                                              elevation: 5.0,
-                                                              duration: Duration(seconds: 1),
-                                                            );
-                                                            ScaffoldMessenger.maybeOf(context).showSnackBar(snackBar);
+                                                            if (value != null) {
+                                                              final snackBar = SnackBar(
+                                                                content: Text(value),
+                                                                elevation: 5.0,
+                                                                duration: Duration(seconds: 1),
+                                                              );
+                                                              ScaffoldMessenger.maybeOf(context).showSnackBar(snackBar);
+                                                            } else {
+                                                              final snackBar = SnackBar(
+                                                                content: Text("You do not have twitter app installed"),
+                                                                elevation: 5.0,
+                                                                duration: Duration(seconds: 1),
+                                                              );
+                                                              ScaffoldMessenger.maybeOf(context).showSnackBar(snackBar);
+                                                            }
                                                           });
                                                         },
                                                         child: Image.asset("assets/images/tweeter.png"),
