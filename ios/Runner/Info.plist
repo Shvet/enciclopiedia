@@ -42,6 +42,8 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
-    <string>twitter</string>
+        <array>
+        <string>twitter</string>
+        </array>
 </dict>
 </plist>

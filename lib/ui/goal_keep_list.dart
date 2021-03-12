@@ -355,7 +355,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     _html(_list[index].introtext),
-                                                    /*SizedBox(
+                                                    SizedBox(
                                                       height: 30.0,
                                                       child: GestureDetector(
                                                         onTap: () {
@@ -365,14 +365,21 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                               hashtags: ["EnciclopediaDeportiva"],
                                                               url:
                                                                   "https://apps.apple.com/us/app/enciclopedia-deportiva/id1542621011");
-                                                          s.then((value) {});
+                                                          s.then((value) {
+                                                            final snackBar = SnackBar(
+                                                              content: Text(value),
+                                                              elevation: 5.0,
+                                                              duration: Duration(seconds: 1),
+                                                            );
+                                                            ScaffoldMessenger.maybeOf(context).showSnackBar(snackBar);
+                                                          });
                                                         },
                                                         child: Image.asset("assets/images/tweeter.png"),
                                                       ),
                                                     ),
                                                     SizedBox(
                                                       height: 10.0,
-                                                    ),*/
+                                                    ),
                                                     SizedBox(
                                                       height: 50.0,
                                                       child: GestureDetector(
