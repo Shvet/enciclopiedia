@@ -360,11 +360,11 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                       child: GestureDetector(
                                                         onTap: () {
                                                           Future<String> s = SocialShare.shareTwitter(
-                                                              "Enciclopedia Deportiva-${widget.name}",
-                                                              trailingText: widget.name,
+                                                              "Enciclopedia Deportiva-${widget.name} ",
+                                                              trailingText: " ${widget.name} ",
                                                               hashtags: ["EnciclopediaDeportiva"],
                                                               url:
-                                                                  "https://apps.apple.com/us/app/enciclopedia-deportiva/id1542621011");
+                                                                  " https://apps.apple.com/us/app/enciclopedia-deportiva/id1542621011 ");
                                                           s.then((value) {
                                                             if (value != null) {
                                                               final snackBar = SnackBar(
