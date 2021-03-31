@@ -1,10 +1,10 @@
 import 'package:enciclopiedia_deportiva/bloc/bloc.dart';
 import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
 import 'package:enciclopiedia_deportiva/common/constants/general.dart';
-import 'package:enciclopiedia_deportiva/models/category_sub_entity.dart';
 import 'package:enciclopiedia_deportiva/ui/more_articales.dart';
 import 'package:enciclopiedia_deportiva/ui/searched_article.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +25,8 @@ class GoalKeeperList extends StatefulWidget {
 
 class _GoalKeeperListState extends State<GoalKeeperList> {
   TextEditingController _searchEdit;
-  List<CategorySubEntity> _list = <CategorySubEntity>[];
+
+  // List<CategorySubEntity> _list = <CategorySubEntity>[];
   PageController controller;
   int currentPageValue = 0;
   int previousPageValue = 0;
@@ -118,11 +119,16 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
           .replaceAll("<\/span><\/td>", "<\/th>")
           .replaceAll("<td><span style=\"font-size: 14pt;\">", "<th>")
           .replaceAll("<td><strong><span style=\"font-size: 14pt;\">", "<th><strong>")
-          .replaceAll("<\/span><\/strong><\/td>", "<\/strong><\/th>"),
-      shrinkWrap: true,
+          .replaceAll("<\/span><\/strong><\/td>", "<\/strong><\/th>")
+          .replaceAll("&nbsp;", "")
+          .replaceAll("<td><\/td>", "")
+          .replaceAll("<tr><\/tr>", ""),
+      shrinkWrap: false,
       style: {
         "table": Style(
-          border: Border(bottom: BorderSide(color: Colors.grey)),
+          border: Border(
+            bottom: BorderSide(color: Colors.grey),
+          ),
         ),
         "tr": Style(
           border: Border(
@@ -136,15 +142,22 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
               style: BorderStyle.solid,
             ),
           ),
-          padding: EdgeInsets.all(5.0),
+          padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
           backgroundColor: Colors.white,
-          textAlign: TextAlign.center,
-          fontSize: FontSize(9.0),
-          alignment: Alignment.topCenter,
-          verticalAlign: VerticalAlign.SUB,
+          textAlign: TextAlign.justify,
+          fontSize: FontSize(12.0),
+          alignment: Alignment.center,
+          verticalAlign: VerticalAlign.BASELINE,
         ),
         "td": Style(
-          padding: EdgeInsets.all(6),
+          padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+          backgroundColor: Colors.white,
+          width: double.maxFinite,
+          textAlign: TextAlign.center,
+          fontSize: FontSize(13.5),
+          alignment: Alignment.center,
+          verticalAlign: VerticalAlign.BASELINE,
+          whiteSpace: WhiteSpace.NORMAL,
         ),
       },
     );
@@ -308,6 +321,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                           visible: !isSearching,
                           child: BlocBuilder<CategorySubBloc, CategorySubState>(
                             builder: (context, state) {
+                              // List<CategorySubEntity> _list = <CategorySubEntity>[];
                               if (state is CategorySubInitial) {
                                 return Center(
                                   child: CircularProgressIndicator(),
@@ -319,14 +333,14 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                 );
                               }
                               if (state is CategorySubLoaded) {
-                                _list.addAll(state.list);
+                                // _list.addAll(state.list);
                                 return Expanded(
                                   child: Stack(
                                     alignment: AlignmentDirectional.bottomCenter,
                                     children: <Widget>[
                                       PageView.builder(
                                         physics: ClampingScrollPhysics(),
-                                        itemCount: _list.length,
+                                        itemCount: state.list.length,
                                         controller: controller,
                                         onPageChanged: (int page) {
                                           getChangedPageAndMoveBar(page);
@@ -334,7 +348,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                         itemBuilder: (context, index) => Column(
                                           children: [
                                             Text(
-                                              _list[index].title,
+                                              state.list[index].title,
                                               style: GoogleFonts.openSans(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18.0,
@@ -354,7 +368,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
-                                                    _html(_list[index].introtext),
+                                                    _html(state.list[index].introtext),
                                                     SizedBox(
                                                       height: 30.0,
                                                       child: GestureDetector(
@@ -393,7 +407,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                       height: 50.0,
                                                       child: GestureDetector(
                                                         onTap: () {
-                                                          final page = MoreArticles(_list);
+                                                          final page = MoreArticles(state.list);
                                                           Navigator.push(
                                                             context,
                                                             CupertinoPageRoute(
@@ -629,14 +643,13 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                 );
                               }
                               if (state is CategorySubLoaded) {
-                                _list.addAll(state.list);
                                 return Expanded(
                                   child: Stack(
                                     alignment: AlignmentDirectional.bottomCenter,
                                     children: <Widget>[
                                       PageView.builder(
                                         physics: ClampingScrollPhysics(),
-                                        itemCount: _list.length,
+                                        itemCount: state.list.length,
                                         controller: controller,
                                         onPageChanged: (int page) {
                                           getChangedPageAndMoveBar(page);
@@ -644,7 +657,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                         itemBuilder: (context, index) => Column(
                                           children: [
                                             Text(
-                                              _list[index].title,
+                                              state.list[index].title,
                                               style: GoogleFonts.openSans(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18.0,
@@ -664,7 +677,16 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
-                                                    _html(_list[index].introtext),
+                                                    SingleChildScrollView(
+                                                      scrollDirection: Axis.horizontal,
+                                                      physics: ScrollPhysics(),
+                                                      dragStartBehavior: DragStartBehavior.start,
+                                                      child: Row(
+                                                        children: [
+                                                          _html(state.list[index].introtext.trim()),
+                                                        ],
+                                                      ),
+                                                    ),
                                                     SizedBox(
                                                       height: 30.0,
                                                       child: GestureDetector(
@@ -686,7 +708,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                       height: 50.0,
                                                       child: GestureDetector(
                                                         onTap: () {
-                                                          final page = MoreArticles(_list);
+                                                          final page = MoreArticles(state.list);
                                                           Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
@@ -773,191 +795,3 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
     }
   }
 }
-
-/*ListView.separated(
-                                itemCount: _list.length,
-                                physics: ScrollPhysics(),
-                                shrinkWrap: true,
-                                separatorBuilder: (context, index) => Divider(
-                                  height: 1.0,
-                                  color: Colors.grey,
-                                  thickness: 1.0,
-                                ),
-                                itemBuilder: (context, index) => Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    Expanded(
-                                      flex: 3,
-                                      child: SizedBox(
-                                        height: 50.0,
-                                        child: Center(
-                                          child: Text(
-                                            _list[index]._goalKeeper,
-                                            maxLines: 2,
-                                            softWrap: true,
-                                            overflow: TextOverflow.visible,
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                                fontSize: 15.0,
-                                                inherit: true,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: SizedBox(
-                                        height: 50.0,
-                                        child: Center(
-                                          child: Text(
-                                            _list[index]._goal,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 15.0,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: SizedBox(
-                                        width: 50.0,
-                                        child: Text(
-                                          _list[index]._penalty,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.visible,
-                                          softWrap: true,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 15.0,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),*/
-/*Column(
-mainAxisSize: MainAxisSize.max,
-crossAxisAlignment: CrossAxisAlignment.start,
-mainAxisAlignment: MainAxisAlignment.start,
-children: <Widget>[
-_searchBox(),
-SizedBox(
-height: 10,
-),
-Text(
-"ARQUEROS QUE HAN MARCADO GOLES EN FUTBOL ECUATORIANO",
-style: GoogleFonts.openSans(
-fontWeight: FontWeight.w600,
-fontSize: 18.0,
-color: darkBG,
-),
-textDirection: TextDirection.ltr,
-textAlign: TextAlign.center,
-),
-SizedBox(
-height: 3.0,
-),
-Divider(
-color: darkBG,
-height: 2.0,
-thickness: 2.0,
-),
-Expanded(
-child: ListView.separated(
-itemCount: _list.length,
-physics: ScrollPhysics(),
-shrinkWrap: true,
-separatorBuilder: (context, index) => Divider(
-height: 1.0,
-color: Colors.grey,
-thickness: 1.0,
-),
-itemBuilder: (context, index) => Row(
-mainAxisSize: MainAxisSize.max,
-crossAxisAlignment: CrossAxisAlignment.center,
-mainAxisAlignment:
-MainAxisAlignment.spaceEvenly,
-children: <Widget>[
-Expanded(
-flex: 3,
-child: SizedBox(
-height: 50.0,
-child: Center(
-child: Text(
-_list[index]._goalKeeper,
-maxLines: 2,
-softWrap: true,
-overflow: TextOverflow.visible,
-textAlign: TextAlign.start,
-style: TextStyle(
-fontSize: 15.0,
-inherit: true,
-fontWeight: FontWeight.w400),
-),
-),
-),
-),
-Expanded(
-flex: 1,
-child: SizedBox(
-height: 50.0,
-child: Center(
-child: Text(
-_list[index]._goal,
-textAlign: TextAlign.center,
-style: TextStyle(
-fontSize: 15.0,
-fontWeight: FontWeight.w400),
-),
-),
-),
-),
-Expanded(
-flex: 2,
-child: SizedBox(
-width: 50.0,
-child: Text(
-_list[index]._penalty,
-maxLines: 2,
-overflow: TextOverflow.visible,
-softWrap: true,
-textAlign: TextAlign.center,
-style: TextStyle(
-fontSize: 15.0,
-fontWeight: FontWeight.w400),
-),
-),
-),
-],
-),
-),
-),
-SizedBox(
-height: 50.0,
-child: Container(
-alignment: Alignment.center,
-decoration: BoxDecoration(
-color: Colors.redAccent[100],
-border: Border.all(
-color: Colors.deepOrange,
-width: 2.0,
-),
-shape: BoxShape.rectangle,
-borderRadius:
-BorderRadius.all(Radius.circular(5.0)),
-),
-child: Text(
-"Más artículos...",
-textAlign: TextAlign.center,
-),
-),
-),
-],
-);*/

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:enciclopiedia_deportiva/generated/json/category_entity_helper.dart';
 import 'package:enciclopiedia_deportiva/generated/json/category_sub_entity_helper.dart';
@@ -39,7 +40,7 @@ class CategoryApi {
       throw new Exception("error getting categories");
     }
     List<dynamic> jsonArray = jsonDecode(result.body);
-
+    log("WEb Result: ${result.body}");
     List<CategorySubEntity> list = List<CategorySubEntity>.from(jsonArray.map(
       (categorySub) => categorySubEntityFromJson(new CategorySubEntity(), categorySub),
     ));
@@ -47,7 +48,6 @@ class CategoryApi {
   }
 
   Future<SearchEntity> getSearchData(String keyword) async {
-    // &keyword=ten&ordering=newest&limit=10&token=MobileAppData21222324252627282930
     final url = '$_baseUrl' +
         "option=com_hoicoiapi&task=getContents&task=getSearchResult"
             "&keyword=$keyword&ordering=newest&limit=10&token=MobileAppData21222324252627282930";

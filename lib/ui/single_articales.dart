@@ -2,6 +2,7 @@ import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
 import 'package:enciclopiedia_deportiva/common/constants/general.dart';
 import 'package:enciclopiedia_deportiva/models/category_sub_entity.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
@@ -17,6 +18,56 @@ class SingleArticles extends StatefulWidget {
 }
 
 class _SingleArticlesState extends State<SingleArticles> {
+  Widget _html(String data) {
+    return Html(
+      data: data
+          .replaceAll("<td><span style=\"font-size: 12pt;\">", "<th>")
+          .replaceAll("<\/span><\/td>", "<\/th>")
+          .replaceAll("<td><span style=\"font-size: 14pt;\">", "<th>")
+          .replaceAll("<td><strong><span style=\"font-size: 14pt;\">", "<th><strong>")
+          .replaceAll("<\/span><\/strong><\/td>", "<\/strong><\/th>")
+          .replaceAll("&nbsp;", "")
+          .replaceAll("<td><\/td>", "")
+          .replaceAll("<tr><\/tr>", ""),
+      shrinkWrap: false,
+      style: {
+        "table": Style(
+          border: Border(
+            bottom: BorderSide(color: Colors.grey),
+          ),
+        ),
+        "tr": Style(
+          border: Border(
+            bottom: BorderSide(color: Colors.grey),
+          ),
+          width: double.maxFinite,
+        ),
+        "th": Style(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.grey,
+              style: BorderStyle.solid,
+            ),
+          ),
+          padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+          backgroundColor: Colors.white,
+          textAlign: TextAlign.justify,
+          fontSize: FontSize(12.0),
+          alignment: Alignment.center,
+          verticalAlign: VerticalAlign.BASELINE,
+        ),
+        "td": Style(
+          padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+          backgroundColor: Colors.white,
+          textAlign: TextAlign.justify,
+          fontSize: FontSize(14.0),
+          alignment: Alignment.center,
+          verticalAlign: VerticalAlign.BASELINE,
+        ),
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isIos) {
@@ -96,28 +147,18 @@ class _SingleArticlesState extends State<SingleArticles> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Html(
-                                  data: widget.categorySubEntity.introtext,
-                                  shrinkWrap: true,
-                                  style: {
-                                    "table": Style(
-                                      border: Border(bottom: BorderSide(color: Colors.grey)),
-                                    ),
-                                    "tr": Style(
-                                      border: Border(
-                                        bottom: BorderSide(color: Colors.grey),
-                                      ),
-                                    ),
-                                    "th": Style(
-                                      padding: EdgeInsets.all(6),
-                                      backgroundColor: Colors.grey,
-                                      textAlign: TextAlign.center,
-                                      fontSize: FontSize(14.0),
-                                    ),
-                                    "td": Style(
-                                      padding: EdgeInsets.all(6),
-                                    ),
-                                  },
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  physics: ScrollPhysics(),
+                                  dragStartBehavior: DragStartBehavior.start,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      _html(widget.categorySubEntity.introtext),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -214,27 +255,18 @@ class _SingleArticlesState extends State<SingleArticles> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Html(
-                                  data: widget.categorySubEntity.introtext.replaceAll("<td></td>", ""),
-                                  shrinkWrap: true,
-                                  style: {
-                                    "table": Style(
-                                      border: Border(bottom: BorderSide(color: Colors.grey)),
-                                    ),
-                                    "tr": Style(
-                                      border: Border(
-                                        bottom: BorderSide(color: Colors.grey),
-                                      ),
-                                    ),
-                                    "th": Style(
-                                      padding: EdgeInsets.all(6),
-                                      backgroundColor: Colors.grey,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    "td": Style(
-                                      padding: EdgeInsets.all(6),
-                                    ),
-                                  },
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  physics: ScrollPhysics(),
+                                  dragStartBehavior: DragStartBehavior.start,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      _html(widget.categorySubEntity.introtext),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -251,4 +283,26 @@ class _SingleArticlesState extends State<SingleArticles> {
       );
     }
   }
+/*Html(
+  data: widget.categorySubEntity.introtext.replaceAll("<td></td>", ""),
+  shrinkWrap: true,
+  style: {
+  "table": Style(
+  border: Border(bottom: BorderSide(color: Colors.grey)),
+  ),
+  "tr": Style(
+  border: Border(
+  bottom: BorderSide(color: Colors.grey),
+  ),
+  ),
+  "th": Style(
+  padding: EdgeInsets.all(6),
+  backgroundColor: Colors.grey,
+  textAlign: TextAlign.center,
+  ),
+  "td": Style(
+  padding: EdgeInsets.all(6),
+  ),
+  },
+  ),*/
 }
