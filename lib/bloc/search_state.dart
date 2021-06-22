@@ -14,7 +14,7 @@ class SearchLoading extends SearchState {}
 class SearchLoaded extends SearchState {
   final SearchEntity list;
 
-  const SearchLoaded({@required this.list}) : assert(list != null);
+  const SearchLoaded({required this.list});
 
   @override
   List<Object> get props => [list];

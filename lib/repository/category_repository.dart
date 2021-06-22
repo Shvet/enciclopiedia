@@ -2,12 +2,11 @@ import 'package:enciclopiedia_deportiva/models/category_entity.dart';
 import 'package:enciclopiedia_deportiva/models/category_sub_entity.dart';
 import 'package:enciclopiedia_deportiva/models/search_entity.dart';
 import 'package:enciclopiedia_deportiva/repository/category_call_api.dart';
-import 'package:flutter/widgets.dart';
 
 class CategoryRepository {
   final CategoryApi categoryApi;
 
-  CategoryRepository({@required this.categoryApi}) : assert(categoryApi != null);
+  CategoryRepository({required this.categoryApi});
 
   Future<List<CategoryEntity>> fetchCategory() async {
     return await categoryApi.fetchCategories();

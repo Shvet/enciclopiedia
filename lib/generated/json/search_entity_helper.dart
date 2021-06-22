@@ -2,64 +2,57 @@ import 'package:enciclopiedia_deportiva/models/search_entity.dart';
 
 searchEntityFromJson(SearchEntity data, Map<String, dynamic> json) {
   if (json['data'] != null) {
-    data.data = <SearchData>[];
-    (json['data'] as List).forEach((v) {
-      data.data.add(new SearchData().fromJson(v));
-    });
+    data.data = (json['data'] as List).map((v) => SearchData().fromJson(v)).toList();
   }
   if (json['pagination'] != null) {
-    data.pagination = new SearchPagination().fromJson(json['pagination']);
+    data.pagination = SearchPagination().fromJson(json['pagination']);
   }
   return data;
 }
 
 Map<String, dynamic> searchEntityToJson(SearchEntity entity) {
   final Map<String, dynamic> data = new Map<String, dynamic>();
-  if (entity.data != null) {
-    data['data'] = entity.data.map((v) => v.toJson()).toList();
-  }
-  if (entity.pagination != null) {
-    data['pagination'] = entity.pagination.toJson();
-  }
+  data['data'] = entity.data?.map((v) => v.toJson()).toList();
+  data['pagination'] = entity.pagination?.toJson();
   return data;
 }
 
 searchDataFromJson(SearchData data, Map<String, dynamic> json) {
   if (json['title'] != null) {
-    data.title = json['title']?.toString();
+    data.title = json['title'].toString();
   }
   if (json['text'] != null) {
-    data.text = json['text']?.toString();
+    data.text = json['text'].toString();
   }
   if (json['created'] != null) {
-    data.created = json['created']?.toString();
+    data.created = json['created'].toString();
   }
   if (json['browsernav'] != null) {
-    data.browsernav = json['browsernav']?.toString();
+    data.browsernav = json['browsernav'].toString();
   }
   if (json['catid'] != null) {
-    data.catid = json['catid']?.toString();
+    data.catid = json['catid'].toString();
   }
   if (json['slug'] != null) {
-    data.slug = json['slug']?.toString();
+    data.slug = json['slug'].toString();
   }
   if (json['href'] != null) {
-    data.href = json['href']?.toString();
+    data.href = json['href'].toString();
   }
   if (json['section'] != null) {
-    data.section = json['section']?.toString();
+    data.section = json['section'].toString();
   }
   if (json['metadesc'] != null) {
-    data.metadesc = json['metadesc']?.toString();
+    data.metadesc = json['metadesc'].toString();
   }
   if (json['metakey'] != null) {
-    data.metakey = json['metakey']?.toString();
+    data.metakey = json['metakey'].toString();
   }
   if (json['language'] != null) {
-    data.language = json['language']?.toString();
+    data.language = json['language'].toString();
   }
   if (json['catslug'] != null) {
-    data.catslug = json['catslug']?.toString();
+    data.catslug = json['catslug'].toString();
   }
   return data;
 }
@@ -83,25 +76,26 @@ Map<String, dynamic> searchDataToJson(SearchData entity) {
 
 searchPaginationFromJson(SearchPagination data, Map<String, dynamic> json) {
   if (json['limitstart'] != null) {
-    data.limitstart = json['limitstart']?.toInt();
+    data.limitstart = json['limitstart'] is String ? int.tryParse(json['limitstart']) : json['limitstart'].toInt();
   }
   if (json['limit'] != null) {
-    data.limit = json['limit']?.toInt();
+    data.limit = json['limit'] is String ? int.tryParse(json['limit']) : json['limit'].toInt();
   }
   if (json['total'] != null) {
-    data.total = json['total']?.toInt();
+    data.total = json['total'] is String ? int.tryParse(json['total']) : json['total'].toInt();
   }
   if (json['pagesStart'] != null) {
-    data.pagesStart = json['pagesStart']?.toInt();
+    data.pagesStart = json['pagesStart'] is String ? int.tryParse(json['pagesStart']) : json['pagesStart'].toInt();
   }
   if (json['pagesStop'] != null) {
-    data.pagesStop = json['pagesStop']?.toInt();
+    data.pagesStop = json['pagesStop'] is String ? int.tryParse(json['pagesStop']) : json['pagesStop'].toInt();
   }
   if (json['pagesCurrent'] != null) {
-    data.pagesCurrent = json['pagesCurrent']?.toInt();
+    data.pagesCurrent =
+        json['pagesCurrent'] is String ? int.tryParse(json['pagesCurrent']) : json['pagesCurrent'].toInt();
   }
   if (json['pagesTotal'] != null) {
-    data.pagesTotal = json['pagesTotal']?.toInt();
+    data.pagesTotal = json['pagesTotal'] is String ? int.tryParse(json['pagesTotal']) : json['pagesTotal'].toInt();
   }
   return data;
 }

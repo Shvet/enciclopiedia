@@ -4,150 +4,149 @@ import 'package:equatable/equatable.dart';
 
 // ignore: must_be_immutable
 class CategorySubEntity extends Equatable with JsonConvert<CategorySubEntity> {
-  String id;
-  String title;
-  String alias;
-  String introtext;
-  String fulltext;
+  String? id;
+  String? title;
+  String? alias;
+  String? introtext;
+  String? fulltext;
   @JSONField(name: "checked_out")
-  String checkedOut;
+  String? checkedOut;
   @JSONField(name: "checked_out_time")
-  String checkedOutTime;
-  String catid;
-  String created;
+  String? checkedOutTime;
+  String? catid;
+  String? created;
   @JSONField(name: "created_by")
-  String createdBy;
+  String? createdBy;
   @JSONField(name: "created_by_alias")
-  String createdByAlias;
-  String modified;
+  String? createdByAlias;
+  String? modified;
   @JSONField(name: "modified_by")
-  String modifiedBy;
+  String? modifiedBy;
   @JSONField(name: "modified_by_name")
-  String modifiedByName;
+  String? modifiedByName;
   @JSONField(name: "publish_up")
-  String publishUp;
+  String? publishUp;
   @JSONField(name: "publish_down")
-  String publishDown;
-  String images;
-  String urls;
-  String attribs;
-  String metadata;
-  String metakey;
-  String metadesc;
-  String access;
-  String hits;
-  String xreference;
-  String featured;
-  String language;
-  String readmore;
-  String state;
+  String? publishDown;
+  String? images;
+  String? urls;
+  String? attribs;
+  String? metadata;
+  String? metakey;
+  String? metadesc;
+  String? access;
+  String? hits;
+  String? xreference;
+  String? featured;
+  String? language;
+  String? readmore;
+  String? state;
   @JSONField(name: "category_title")
-  String categoryTitle;
+  String? categoryTitle;
   @JSONField(name: "category_route")
-  String categoryRoute;
+  String? categoryRoute;
   @JSONField(name: "category_access")
-  String categoryAccess;
+  String? categoryAccess;
   @JSONField(name: "category_alias")
-  String categoryAlias;
-  String author;
+  String? categoryAlias;
+  String? author;
   @JSONField(name: "author_email")
-  String authorEmail;
+  String? authorEmail;
   @JSONField(name: "parent_title")
-  String parentTitle;
+  String? parentTitle;
   @JSONField(name: "parent_id")
-  String parentId;
+  String? parentId;
   @JSONField(name: "parent_route")
-  String parentRoute;
+  String? parentRoute;
   @JSONField(name: "parent_alias")
-  String parentAlias;
+  String? parentAlias;
   dynamic rating;
   @JSONField(name: "rating_count")
   dynamic ratingCount;
-  String published;
+  String? published;
   @JSONField(name: "parents_published")
-  String parentsPublished;
+  String? parentsPublished;
   @JSONField(name: "alternative_readmore")
   dynamic alternativeReadmore;
   dynamic layout;
-  CategorySubParams params;
-  String displayDate;
+  CategorySubParams? params;
+  String? displayDate;
 
   @override
   List<Object> get props => [
-        id,
-        parentId,
-        params,
-        parentAlias,
-        parentRoute,
-        parentsPublished,
-        parentTitle,
-        publishDown,
-        published,
-        publishUp,
-        hits,
-        metakey,
-        metadesc,
-        metadata,
-        checkedOutTime,
-        checkedOut,
-        categoryAccess,
-        categoryAlias,
-        categoryRoute,
-        categoryTitle,
-        catid,
-        created,
-        createdBy,
-        createdByAlias,
-        alias,
-        access,
-        title,
+        id!,
+        parentId!,
+        params!,
+        parentAlias!,
+        parentRoute!,
+        parentsPublished!,
+        parentTitle!,
+        publishDown!,
+        published!,
+        publishUp!,
+        hits!,
+        metakey!,
+        metadesc!,
+        metadata!,
+        checkedOutTime!,
+        checkedOut!,
+        categoryAccess!,
+        categoryAlias!,
+        categoryRoute!,
+        categoryTitle!,
+        catid!,
+        created!,
+        createdBy!,
+        createdByAlias!,
+        alias!,
+        access!,
+        title!,
         alternativeReadmore,
-        attribs,
-        author,
-        authorEmail,
-        displayDate,
-        featured,
-        fulltext,
-        images,
-        introtext,
-        language,
+        attribs!,
+        author!,
+        authorEmail!,
+        displayDate!,
+        featured!,
+        fulltext!,
+        images!,
+        introtext!,
+        language!,
         layout,
-        modified,
-        modifiedBy,
-        modifiedByName,
+        modified!,
+        modifiedBy!,
+        modifiedByName!,
         rating,
         ratingCount,
-        readmore,
-        state,
-        urls,
-        xreference
+        readmore!,
+        state!,
+        urls!,
+        xreference!
       ];
 
   @override
   String toString() {
-    return id;
+    return id!;
   }
 }
 
 // ignore: must_be_immutable
 class CategorySubParams extends Equatable with JsonConvert<CategorySubParams> {
-  String token;
+  String? token;
   @JSONField(name: "page_title")
-  String pageTitle;
+  String? pageTitle;
   @JSONField(name: "page_description")
-  String pageDescription;
+  String? pageDescription;
   @JSONField(name: "page_rights")
   dynamic pageRights;
   dynamic robots;
   @JSONField(name: "access-view")
-  bool access;
+  bool? access;
 
   @override
-  List<Object> get props =>
-      [token, pageDescription, pageRights, pageTitle, robots, access];
+  List<Object> get props => [token!, pageDescription!, pageRights, pageTitle!, robots, access!];
 
   @override
   String toString() {
-    return token;
+    return token!;
   }
 }

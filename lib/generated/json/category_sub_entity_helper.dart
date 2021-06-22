@@ -2,121 +2,121 @@ import 'package:enciclopiedia_deportiva/models/category_sub_entity.dart';
 
 categorySubEntityFromJson(CategorySubEntity data, Map<String, dynamic> json) {
   if (json['id'] != null) {
-    data.id = json['id']?.toString();
+    data.id = json['id'].toString();
   }
   if (json['title'] != null) {
-    data.title = json['title']?.toString();
+    data.title = json['title'].toString();
   }
   if (json['alias'] != null) {
-    data.alias = json['alias']?.toString();
+    data.alias = json['alias'].toString();
   }
   if (json['introtext'] != null) {
-    data.introtext = json['introtext']?.toString();
+    data.introtext = json['introtext'].toString();
   }
   if (json['fulltext'] != null) {
-    data.fulltext = json['fulltext']?.toString();
+    data.fulltext = json['fulltext'].toString();
   }
   if (json['checked_out'] != null) {
-    data.checkedOut = json['checked_out']?.toString();
+    data.checkedOut = json['checked_out'].toString();
   }
   if (json['checked_out_time'] != null) {
-    data.checkedOutTime = json['checked_out_time']?.toString();
+    data.checkedOutTime = json['checked_out_time'].toString();
   }
   if (json['catid'] != null) {
-    data.catid = json['catid']?.toString();
+    data.catid = json['catid'].toString();
   }
   if (json['created'] != null) {
-    data.created = json['created']?.toString();
+    data.created = json['created'].toString();
   }
   if (json['created_by'] != null) {
-    data.createdBy = json['created_by']?.toString();
+    data.createdBy = json['created_by'].toString();
   }
   if (json['created_by_alias'] != null) {
-    data.createdByAlias = json['created_by_alias']?.toString();
+    data.createdByAlias = json['created_by_alias'].toString();
   }
   if (json['modified'] != null) {
-    data.modified = json['modified']?.toString();
+    data.modified = json['modified'].toString();
   }
   if (json['modified_by'] != null) {
-    data.modifiedBy = json['modified_by']?.toString();
+    data.modifiedBy = json['modified_by'].toString();
   }
   if (json['modified_by_name'] != null) {
-    data.modifiedByName = json['modified_by_name']?.toString();
+    data.modifiedByName = json['modified_by_name'].toString();
   }
   if (json['publish_up'] != null) {
-    data.publishUp = json['publish_up']?.toString();
+    data.publishUp = json['publish_up'].toString();
   }
   if (json['publish_down'] != null) {
-    data.publishDown = json['publish_down']?.toString();
+    data.publishDown = json['publish_down'].toString();
   }
   if (json['images'] != null) {
-    data.images = json['images']?.toString();
+    data.images = json['images'].toString();
   }
   if (json['urls'] != null) {
-    data.urls = json['urls']?.toString();
+    data.urls = json['urls'].toString();
   }
   if (json['attribs'] != null) {
-    data.attribs = json['attribs']?.toString();
+    data.attribs = json['attribs'].toString();
   }
   if (json['metadata'] != null) {
-    data.metadata = json['metadata']?.toString();
+    data.metadata = json['metadata'].toString();
   }
   if (json['metakey'] != null) {
-    data.metakey = json['metakey']?.toString();
+    data.metakey = json['metakey'].toString();
   }
   if (json['metadesc'] != null) {
-    data.metadesc = json['metadesc']?.toString();
+    data.metadesc = json['metadesc'].toString();
   }
   if (json['access'] != null) {
-    data.access = json['access']?.toString();
+    data.access = json['access'].toString();
   }
   if (json['hits'] != null) {
-    data.hits = json['hits']?.toString();
+    data.hits = json['hits'].toString();
   }
   if (json['xreference'] != null) {
-    data.xreference = json['xreference']?.toString();
+    data.xreference = json['xreference'].toString();
   }
   if (json['featured'] != null) {
-    data.featured = json['featured']?.toString();
+    data.featured = json['featured'].toString();
   }
   if (json['language'] != null) {
-    data.language = json['language']?.toString();
+    data.language = json['language'].toString();
   }
   if (json['readmore'] != null) {
-    data.readmore = json['readmore']?.toString();
+    data.readmore = json['readmore'].toString();
   }
   if (json['state'] != null) {
-    data.state = json['state']?.toString();
+    data.state = json['state'].toString();
   }
   if (json['category_title'] != null) {
-    data.categoryTitle = json['category_title']?.toString();
+    data.categoryTitle = json['category_title'].toString();
   }
   if (json['category_route'] != null) {
-    data.categoryRoute = json['category_route']?.toString();
+    data.categoryRoute = json['category_route'].toString();
   }
   if (json['category_access'] != null) {
-    data.categoryAccess = json['category_access']?.toString();
+    data.categoryAccess = json['category_access'].toString();
   }
   if (json['category_alias'] != null) {
-    data.categoryAlias = json['category_alias']?.toString();
+    data.categoryAlias = json['category_alias'].toString();
   }
   if (json['author'] != null) {
-    data.author = json['author']?.toString();
+    data.author = json['author'].toString();
   }
   if (json['author_email'] != null) {
-    data.authorEmail = json['author_email']?.toString();
+    data.authorEmail = json['author_email'].toString();
   }
   if (json['parent_title'] != null) {
-    data.parentTitle = json['parent_title']?.toString();
+    data.parentTitle = json['parent_title'].toString();
   }
   if (json['parent_id'] != null) {
-    data.parentId = json['parent_id']?.toString();
+    data.parentId = json['parent_id'].toString();
   }
   if (json['parent_route'] != null) {
-    data.parentRoute = json['parent_route']?.toString();
+    data.parentRoute = json['parent_route'].toString();
   }
   if (json['parent_alias'] != null) {
-    data.parentAlias = json['parent_alias']?.toString();
+    data.parentAlias = json['parent_alias'].toString();
   }
   if (json['rating'] != null) {
     data.rating = json['rating'];
@@ -125,10 +125,10 @@ categorySubEntityFromJson(CategorySubEntity data, Map<String, dynamic> json) {
     data.ratingCount = json['rating_count'];
   }
   if (json['published'] != null) {
-    data.published = json['published']?.toString();
+    data.published = json['published'].toString();
   }
   if (json['parents_published'] != null) {
-    data.parentsPublished = json['parents_published']?.toString();
+    data.parentsPublished = json['parents_published'].toString();
   }
   if (json['alternative_readmore'] != null) {
     data.alternativeReadmore = json['alternative_readmore'];
@@ -137,10 +137,10 @@ categorySubEntityFromJson(CategorySubEntity data, Map<String, dynamic> json) {
     data.layout = json['layout'];
   }
   if (json['params'] != null) {
-    data.params = new CategorySubParams().fromJson(json['params']);
+    data.params = CategorySubParams().fromJson(json['params']);
   }
   if (json['displayDate'] != null) {
-    data.displayDate = json['displayDate']?.toString();
+    data.displayDate = json['displayDate'].toString();
   }
   return data;
 }
@@ -192,22 +192,20 @@ Map<String, dynamic> categorySubEntityToJson(CategorySubEntity entity) {
   data['parents_published'] = entity.parentsPublished;
   data['alternative_readmore'] = entity.alternativeReadmore;
   data['layout'] = entity.layout;
-  if (entity.params != null) {
-    data['params'] = entity.params.toJson();
-  }
+  data['params'] = entity.params?.toJson();
   data['displayDate'] = entity.displayDate;
   return data;
 }
 
 categorySubParamsFromJson(CategorySubParams data, Map<String, dynamic> json) {
   if (json['token'] != null) {
-    data.token = json['token']?.toString();
+    data.token = json['token'].toString();
   }
   if (json['page_title'] != null) {
-    data.pageTitle = json['page_title']?.toString();
+    data.pageTitle = json['page_title'].toString();
   }
   if (json['page_description'] != null) {
-    data.pageDescription = json['page_description']?.toString();
+    data.pageDescription = json['page_description'].toString();
   }
   if (json['page_rights'] != null) {
     data.pageRights = json['page_rights'];

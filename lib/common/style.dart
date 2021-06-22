@@ -72,17 +72,17 @@ ThemeData buildLightTheme(String language) {
 TextTheme _buildTextTheme(TextTheme base, String language) {
   return eTextTheme(base, language)
       .copyWith(
-        headline5: base.headline5.copyWith(fontWeight: FontWeight.w600, color: Colors.red),
-        headline6: base.headline6.copyWith(fontSize: 18.0),
-        caption: base.caption.copyWith(
+        headline5: base.headline5!.copyWith(fontWeight: FontWeight.w600, color: Colors.red),
+        headline6: base.headline6!.copyWith(fontSize: 18.0),
+        caption: base.caption!.copyWith(
           fontWeight: FontWeight.w600,
           fontSize: 14.0,
         ),
-        subtitle1: base.subtitle1.copyWith(
+        subtitle1: base.subtitle1!.copyWith(
           fontWeight: FontWeight.w400,
           fontSize: 16.0,
         ),
-        button: base.button.copyWith(
+        button: base.button!.copyWith(
           fontWeight: FontWeight.w400,
           fontSize: 14.0,
         ),
@@ -91,7 +91,7 @@ TextTheme _buildTextTheme(TextTheme base, String language) {
         displayColor: grey900,
         bodyColor: grey900,
       )
-      .copyWith(headline4: eHeadlineTheme(base).headline4.copyWith());
+      .copyWith(headline4: eHeadlineTheme(base).headline4!.copyWith());
 }
 
 CupertinoThemeData buildLightCupertinoTheme(BuildContext context) {

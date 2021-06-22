@@ -71,20 +71,33 @@ Future<void> main() async {
 
 class SimpleBlocObserver implements BlocObserver {
   @override
-  void onChange(Stream<dynamic> stream, Change change) {}
+  void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
+    // TODO: implement onChange
+  }
 
   @override
-  void onError(Stream<dynamic> stream, Object error, StackTrace stackTrace) {}
+  void onClose(BlocBase<dynamic> bloc) {
+    // TODO: implement onClose
+  }
 
   @override
-  void onEvent(Bloc<dynamic, dynamic> bloc, Object event) {}
+  void onCreate(BlocBase bloc) {
+    // TODO: implement onCreate
+  }
 
   @override
-  void onTransition(Bloc<dynamic, dynamic> bloc, Transition<dynamic, dynamic> transition) {}
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    // TODO: implement onError
+  }
+
 
   @override
-  void onClose(Cubit cubit) {}
+  void onTransition(Bloc bloc, Transition<dynamic, dynamic> transition) {
+    // TODO: implement onTransition
+  }
 
   @override
-  void onCreate(Cubit cubit) {}
+  void onEvent(Bloc bloc, Object? event) {
+    // TODO: implement onEvent
+  }
 }

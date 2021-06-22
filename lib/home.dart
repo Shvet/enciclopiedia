@@ -21,10 +21,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  TextEditingController _searchEdit;
+  late TextEditingController _searchEdit;
   List<CategoryMainEntity> _list = [];
   bool isSearching = false;
-  PageController controller;
+  late PageController controller;
   int currentPageValue = 0;
   int previousPageValue = 0;
   double _moveBar = 0.0;
@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
           child: Padding(
             padding: EdgeInsets.only(left: 20.0, bottom: 5.0, top: 5.0),
             child: Text(
-              subString[i].name,
+              subString[i].name!,
               style: TextStyle(
                 color: Colors.black87,
                 fontSize: 18.0,
@@ -101,8 +101,8 @@ class _HomeState extends State<Home> {
         ),
         onTap: () {
           final page = GoalKeeperList(
-            id: subString[i].id,
-            name: subString[i].name,
+            id: subString[i].id!,
+            name: subString[i].name!,
           );
           if (isIos) {
             Navigator.push(
@@ -129,8 +129,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    screenWidth = MediaQuery.maybeOf(context).size.width;
-    screenHeight = MediaQuery.maybeOf(context).size.height;
+    screenWidth = MediaQuery.maybeOf(context)!.size.width;
+    screenHeight = MediaQuery.maybeOf(context)!.size.height;
     bool isExpanded = false;
     if (isIos) {
       return CupertinoPageScaffold(
@@ -234,7 +234,7 @@ class _HomeState extends State<Home> {
                               shrinkWrap: true,
                               physics: ScrollPhysics(),
                               itemBuilder: (context, index) {
-                                return new custom.ExpansionTile(
+                                return custom.ExpansionTile(
                                   title: new Text(
                                     "${_list[index].title}",
                                     style: TextStyle(color: isExpanded ? Color(0xffECD69D) : Colors.white),
@@ -260,13 +260,12 @@ class _HomeState extends State<Home> {
                                     ),
                                   ),
                                   iconColor: isExpanded ? Color(0xffECD69D) : Colors.white,
-                                  children: <Widget>[...showSubList(_list[index].sub)],
+                                  children: <Widget>[...showSubList(_list[index].sub!)],
                                   onExpansionChanged: (bool expanding) {
                                     setState(() {
                                       isExpanded = expanding;
                                     });
                                   },
-                                  headerBackgroundColor: darkBG,
                                 );
                               },
                             ),
@@ -289,7 +288,7 @@ class _HomeState extends State<Home> {
                                 );
                               }
                               if (state is SearchLoaded) {
-                                if (state.list.data.isEmpty || state.list.data.length == 0) {
+                                if (state.list.data!.isEmpty || state.list.data!.length == 0) {
                                   return Center(
                                     child: Text("No se encontraron resultados"),
                                   );
@@ -297,7 +296,7 @@ class _HomeState extends State<Home> {
                                 return Expanded(
                                   child: ListView.separated(
                                     physics: ScrollPhysics(),
-                                    itemCount: state.list.data.length,
+                                    itemCount: state.list.data!.length,
                                     shrinkWrap: true,
                                     separatorBuilder: (context, index) {
                                       return Divider(
@@ -310,7 +309,7 @@ class _HomeState extends State<Home> {
                                       return ListTile(
                                         onTap: () {
                                           final page = SearchedArticle(
-                                            entity: state.list.data[index],
+                                            entity: state.list.data![index],
                                           );
                                           Navigator.push(
                                             context,
@@ -320,7 +319,7 @@ class _HomeState extends State<Home> {
                                           );
                                         },
                                         title: Text(
-                                          state.list.data[index].title,
+                                          state.list.data![index].title!,
                                           style: TextStyle(
                                             color: Colors.lightBlue[400],
                                           ),
@@ -480,13 +479,13 @@ class _HomeState extends State<Home> {
                                     ),
                                   ),
                                   iconColor: isExpanded ? Color(0xffECD69D) : Colors.white,
-                                  children: <Widget>[...showSubList(_list[index].sub)],
+                                  children: <Widget>[...showSubList(_list[index].sub!)],
                                   onExpansionChanged: (bool expanding) {
                                     setState(() {
                                       isExpanded = expanding;
                                     });
                                   },
-                                  headerBackgroundColor: darkBG,
+                                  backgroundColor: Colors.white,
                                 );
                               },
                             ),
@@ -509,7 +508,7 @@ class _HomeState extends State<Home> {
                                 );
                               }
                               if (state is SearchLoaded) {
-                                if (state.list.data.isEmpty || state.list.data.length == 0) {
+                                if (state.list.data!.isEmpty || state.list.data!.length == 0) {
                                   return Center(
                                     child: Text("No se encontraron resultados"),
                                   );
@@ -517,7 +516,7 @@ class _HomeState extends State<Home> {
                                 return Expanded(
                                   child: ListView.separated(
                                     physics: ScrollPhysics(),
-                                    itemCount: state.list.data.length,
+                                    itemCount: state.list.data!.length,
                                     shrinkWrap: true,
                                     separatorBuilder: (context, index) {
                                       return Divider(
@@ -530,7 +529,7 @@ class _HomeState extends State<Home> {
                                       return ListTile(
                                         onTap: () {
                                           final page = SearchedArticle(
-                                            entity: state.list.data[index],
+                                            entity: state.list.data![index],
                                           );
                                           Navigator.push(
                                             context,
@@ -540,7 +539,7 @@ class _HomeState extends State<Home> {
                                           );
                                         },
                                         title: Text(
-                                          state.list.data[index].title,
+                                          state.list.data![index].title!,
                                           style: TextStyle(
                                             color: Colors.lightBlue[400],
                                           ),

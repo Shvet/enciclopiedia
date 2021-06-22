@@ -7,7 +7,7 @@ abstract class CategorySubEvent extends Equatable {
 class FetchCategorySub extends CategorySubEvent {
   final String id;
 
-  const FetchCategorySub({@required this.id}) : assert(id != null);
+  const FetchCategorySub({required this.id});
 
   @override
   List<Object> get props => [id];
@@ -17,8 +17,7 @@ class SearchCategorySub extends CategorySubEvent {
   final String search;
   final List<CategorySubEntity> list;
 
-  const SearchCategorySub({@required this.search, @required this.list})
-      : assert(search != null && list != null);
+  const SearchCategorySub({required this.search, required this.list});
 
   @override
   List<Object> get props => [search, list];

@@ -7,7 +7,7 @@ abstract class SearchEvent extends Equatable {
 class SearchData extends SearchEvent {
   final String keyWord;
 
-  const SearchData({@required this.keyWord}) : assert(keyWord != null);
+  const SearchData({required this.keyWord});
 
   @override
   List<Object> get props => [keyWord];

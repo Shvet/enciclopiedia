@@ -28,18 +28,15 @@ class ExpansionTile extends StatefulWidget {
   /// the tile to reveal or hide the [children]. The [initiallyExpanded] property must
   /// be non-null.
   const ExpansionTile({
-    Key key,
-    this.headerBackgroundColor,
-    this.leading,
-    @required this.title,
-    this.backgroundColor,
-    this.iconColor,
-    this.onExpansionChanged,
+    Key? key,
+    required this.leading,
+    required this.title,
+    this.backgroundColor = darkBG,
+    required this.iconColor,
+    required this.onExpansionChanged,
     this.children = const <Widget>[],
-    this.trailing,
     this.initiallyExpanded = false,
-  })  : assert(initiallyExpanded != null),
-        super(key: key);
+  }) : super(key: key);
 
   /// A widget to display before the title.
   ///
@@ -66,14 +63,8 @@ class ExpansionTile extends StatefulWidget {
   /// The color to display behind the sublist when expanded.
   final Color backgroundColor;
 
-  /// The color to display the background of the header.
-  final Color headerBackgroundColor;
-
   /// The color to display the icon of the header.
   final Color iconColor;
-
-  /// A widget to display instead of a rotating arrow icon.
-  final Widget trailing;
 
   /// Specifies if the list tile is initially expanded (true) or collapsed (false, the default).
   final bool initiallyExpanded;
@@ -82,27 +73,24 @@ class ExpansionTile extends StatefulWidget {
   _ExpansionTileState createState() => _ExpansionTileState();
 }
 
-class _ExpansionTileState extends State<ExpansionTile>
-    with SingleTickerProviderStateMixin {
-  static final Animatable<double> _easeOutTween =
-      CurveTween(curve: Curves.easeOut);
-  static final Animatable<double> _easeInTween =
-      CurveTween(curve: Curves.easeIn);
-  static final Animatable<double> _halfTween =
-      Tween<double>(begin: 0.0, end: 0.5);
+class _ExpansionTileState extends State<ExpansionTile> with SingleTickerProviderStateMixin {
+  static final Animatable<double> _easeOutTween = CurveTween(curve: Curves.easeOut);
+  static final Animatable<double> _easeInTween = CurveTween(curve: Curves.easeIn);
+  static final Animatable<double> _halfTween = Tween<double>(begin: 0.0, end: 0.5);
 
   final ColorTween _borderColorTween = ColorTween();
   final ColorTween _headerColorTween = ColorTween();
   final ColorTween _iconColorTween = ColorTween();
   final ColorTween _backgroundColorTween = ColorTween();
 
-  AnimationController _controller;
-  Animation<double> _iconTurns;
-  Animation<double> _heightFactor;
-  Animation<Color> _borderColor;
+  late AnimationController _controller;
+  late Animation<double> _iconTurns;
+  late Animation<double> _heightFactor;
+  late Animation<Color?> _borderColor;
+
   // Animation<Color> _headerColor;
-  Animation<Color> _iconColor;
-  Animation<Color> _backgroundColor;
+  late Animation<Color?> _iconColor;
+  late Animation<Color?> _backgroundColor;
 
   bool _isExpanded = false;
 
@@ -115,11 +103,9 @@ class _ExpansionTileState extends State<ExpansionTile>
     _borderColor = _controller.drive(_borderColorTween.chain(_easeOutTween));
     // _headerColor = _controller.drive(_headerColorTween.chain(_easeInTween));
     _iconColor = _controller.drive(_iconColorTween.chain(_easeInTween));
-    _backgroundColor =
-        _controller.drive(_backgroundColorTween.chain(_easeOutTween));
+    _backgroundColor = _controller.drive(_backgroundColorTween.chain(_easeOutTween));
 
-    _isExpanded =
-        PageStorage.of(context)?.readState(context) ?? widget.initiallyExpanded;
+    _isExpanded = PageStorage.of(context)?.readState(context) ?? widget.initiallyExpanded;
     if (_isExpanded) _controller.value = 1.0;
   }
 
@@ -144,11 +130,10 @@ class _ExpansionTileState extends State<ExpansionTile>
       }
       PageStorage.of(context)?.writeState(context, _isExpanded);
     });
-    if (widget.onExpansionChanged != null)
-      widget.onExpansionChanged(_isExpanded);
+    widget.onExpansionChanged(_isExpanded);
   }
 
-  Widget _buildChildren(BuildContext context, Widget child) {
+  Widget _buildChildren(BuildContext context, Widget? child) {
     final Color borderSideColor = _borderColor.value ?? Colors.white;
     // final Color titleColor = _headerColor.value ?? Colors.white;
     return Container(
@@ -157,7 +142,7 @@ class _ExpansionTileState extends State<ExpansionTile>
         bottom: 5.0,
       ),
       decoration: BoxDecoration(
-        color: _backgroundColor.value ?? Color(0xffffffff), //#ECD69D
+        color: _backgroundColor.value ?? darkBG, //#ECD69D
         border: Border(
           top: BorderSide(color: borderSideColor),
           bottom: BorderSide(color: borderSideColor),
@@ -174,7 +159,7 @@ class _ExpansionTileState extends State<ExpansionTile>
             data: IconThemeData(color: _iconColor.value),
             child: Container(
               decoration: BoxDecoration(
-                color: _backgroundColor.value ?? darkBG,
+                color: darkBG,
                 border: Border(
                   top: BorderSide(color: borderSideColor),
                   bottom: BorderSide(color: borderSideColor),
@@ -188,14 +173,13 @@ class _ExpansionTileState extends State<ExpansionTile>
                 onTap: _handleTap,
                 leading: widget.leading,
                 title: widget.title,
-                trailing: widget.trailing ??
-                    RotationTransition(
-                      turns: _iconTurns,
-                      child: Icon(
-                        Icons.expand_more,
-                        color: widget.iconColor ?? Colors.grey,
-                      ),
-                    ),
+                trailing: RotationTransition(
+                  turns: _iconTurns,
+                  child: Icon(
+                    Icons.expand_more,
+                    color: widget.iconColor,
+                  ),
+                ),
               ),
             ),
           ),
@@ -216,7 +200,7 @@ class _ExpansionTileState extends State<ExpansionTile>
     final ThemeData theme = Theme.of(context);
     _borderColorTween..end = theme.dividerColor;
     _headerColorTween
-      ..begin = theme.textTheme.subtitle1.color
+      ..begin = theme.textTheme.subtitle1!.color
       ..end = theme.accentColor;
     _iconColorTween
       ..begin = theme.unselectedWidgetColor

@@ -14,7 +14,7 @@ class CategorySubLoading extends CategorySubState {}
 class CategorySubLoaded extends CategorySubState {
   final List<CategorySubEntity> list;
 
-  const CategorySubLoaded({@required this.list}) : assert(list != null);
+  const CategorySubLoaded({required this.list});
 
   @override
   List<Object> get props => [list];

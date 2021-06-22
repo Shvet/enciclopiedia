@@ -9,7 +9,7 @@ import 'common/constants/general.dart';
 import 'home.dart';
 
 class MyApp extends StatelessWidget {
-  MyApp({Key key}) : super(key: key);
+  MyApp({required Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +43,9 @@ class MyApp extends StatelessWidget {
           ),
           styleTextUnderTheLoader: new TextStyle(),
           photoSize: 100.0,
+          useLoader: true,
+          loadingTextPadding: EdgeInsets.zero,
+          title: new Text(""),
         ),
       );
     }
@@ -70,6 +73,9 @@ class MyApp extends StatelessWidget {
         ),
         styleTextUnderTheLoader: new TextStyle(),
         photoSize: 100.0,
+        useLoader: true,
+        loadingTextPadding: EdgeInsets.zero,
+        title: new Text(""),
       ),
     );
   }

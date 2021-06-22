@@ -9,15 +9,15 @@ import 'package:google_fonts/google_fonts.dart';
 class MoreArticles extends StatefulWidget {
   final List<CategorySubEntity> list;
 
-  MoreArticles(this.list) : assert(list != null);
+  MoreArticles(this.list);
 
   @override
   _MoreArticlesState createState() => _MoreArticlesState();
 }
 
 class _MoreArticlesState extends State<MoreArticles> {
-  TextEditingController _searchEdit;
-  List<CategorySubEntity> _list;
+  late TextEditingController _searchEdit;
+  late List<CategorySubEntity> _list;
 
   Widget _searchBox() {
     return new Container(
@@ -33,7 +33,7 @@ class _MoreArticlesState extends State<MoreArticles> {
             List<CategorySubEntity> _tempList = [];
             for (int i = 0; i < _list.length; i++) {
               CategorySubEntity data = _list[i];
-              if (data.title.toLowerCase().contains(value.toLowerCase())) {
+              if (data.title!.toLowerCase().contains(value.toLowerCase())) {
                 _tempList.add(data);
               }
             }
@@ -53,7 +53,7 @@ class _MoreArticlesState extends State<MoreArticles> {
             List<CategorySubEntity> _tempList = [];
             for (int i = 0; i < _list.length; i++) {
               CategorySubEntity data = _list[i];
-              if (data.title.toLowerCase().contains(value.toLowerCase())) {
+              if (data.title!.toLowerCase().contains(value.toLowerCase())) {
                 _tempList.add(data);
               }
             }
@@ -196,7 +196,7 @@ class _MoreArticlesState extends State<MoreArticles> {
                                   itemBuilder: (context, index) {
                                     return ListTile(
                                       title: Text(
-                                        _list[index].title,
+                                        _list[index].title!,
                                         style: TextStyle(
                                           color: Colors.lightBlue[400],
                                         ),
@@ -327,7 +327,7 @@ class _MoreArticlesState extends State<MoreArticles> {
                                   itemBuilder: (context, index) {
                                     return ListTile(
                                       title: Text(
-                                        _list[index].title,
+                                        _list[index].title!,
                                         style: TextStyle(
                                           color: Colors.lightBlue[400],
                                         ),
