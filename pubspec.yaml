@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.12+12
+version: 1.2.1+13
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -29,7 +29,9 @@ dependencies:
   after_layout: ^1.1.0
   google_fonts: ^2.0.0
   splashscreen:
-    path: ../SplashScreen/
+    git:
+      url: https://github.com/DPLYR-dev/SplashScreenFlutterPackage.git
+      ref: master
   equatable: ^2.0.0
   flutter_bloc: ^7.0.0
   cupertino_icons: ^1.0.0

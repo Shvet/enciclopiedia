@@ -28,7 +28,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 android {
     signingConfigs {
         release {
-            storeFile file('E:\\Android\\enciclopiedia_deportiva\\enciclopidia.jks')
+            storeFile file('E:\\enciclopiedia_deportiva\\enciclopidia.jks')
             storePassword 'enciclopidia'
             keyAlias 'enciclopidia'
             keyPassword 'enciclopidia'

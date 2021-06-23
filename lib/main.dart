@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:enciclopiedia_deportiva/bloc/bloc.dart';
 import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
 import 'package:enciclopiedia_deportiva/common/constants/general.dart';
@@ -18,7 +16,7 @@ import 'bloc/category_sub_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  HttpClient.enableTimelineLogging = true;
+  // HttpClient.enableTimelineLogging = true;
 
   foundation.LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('google_fonts/LICENSE.txt');
@@ -89,7 +87,6 @@ class SimpleBlocObserver implements BlocObserver {
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
     // TODO: implement onError
   }
-
 
   @override
   void onTransition(Bloc bloc, Transition<dynamic, dynamic> transition) {
