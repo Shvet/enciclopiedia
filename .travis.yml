@@ -1,19 +1,71 @@
 matrix:
   include:
-    - os: osx
-      language: generic
-      osx_image: xcode12.2
-      before_script:
-        - cd project
-        - pip install six
-        - brew update
-        - brew install --HEAD libimobiledevice
-        - brew install ideviceinstaller
-        - brew install ios-deploy
-        - git clone https://github.com/flutter/flutter.git -b beta
-      script:
-        - ./flutter/bin/flutter -v build ios --no-codesign
-
+    - os: linux
+    env:
+      - SHARD=Analyze
+    sudo: false
+    addons:
+      apt:
+        # Flutter depends on /usr/lib/x86_64-linux-gnu/libstdc++.so.6 version GLIBCXX_3.4.18
+        sources:
+          - ubuntu-toolchain-r-test # if we don't specify this, the libstdc++6 we get is the wrong version
+        packages:
+          - libstdc++6
+          - fonts-droid-fallback
+    before_script:
+      - git clone https://github.com/flutter/flutter.git
+      - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
+      - flutter doctor
+      - pub global activate flutter_plugin_tools
+    script:
+      - ./script/incremental_build.sh analyze
+      # Job 2) Check format and run tests
+      - os: linux
+        env:
+          - SHARD=Format+Test
+        jdk: openjdk8
+        sudo: false
+        addons:
+          apt:
+            # Flutter depends on /usr/lib/x86_64-linux-gnu/libstdc++.so.6 version GLIBCXX_3.4.18
+            sources:
+              - ubuntu-toolchain-r-test # if we don't specify this, the libstdc++6 we get is the wrong version
+              - llvm-toolchain-precise # for clang-format-5.0
+            packages:
+              - libstdc++6
+              - fonts-droid-fallback
+              - clang-format-5.0
+        before_script:
+          - git clone https://github.com/flutter/flutter.git
+          - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
+          - flutter doctor
+          - pub global activate flutter_plugin_tools
+        script:
+          - ./script/incremental_build.sh format --travis --clang-format=clang-format-5.0
+          - ./script/incremental_build.sh test
+      - os: osx
+          env:
+            - SHARD="Build example ipas 1/2"
+            - PLUGIN_SHARDING="--shardIndex 0 --shardCount 2"
+          language: generic
+          osx_image: xcode11.3
+          before_script:
+            - ./script/before_build_ipas.sh
+            - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
+          script:
+            - ./script/incremental_build.sh build-examples --ipa
+            # Job 4.2) Build example IPAs, shard 2/2
+            - os: osx
+              env:
+                - SHARD="Build example ipas 2/2"
+                - PLUGIN_SHARDING="--shardIndex 1 --shardCount 2"
+              language: generic
+              osx_image: xcode11.3
+              before_script:
+                - ./script/before_build_ipas.sh
+                - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
+              script:
+                - ./script/incremental_build.sh build-examples --ipa
 cache:
   directories:
     - $HOME/.pub-cache
