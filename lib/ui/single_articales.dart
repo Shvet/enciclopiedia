@@ -14,7 +14,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 class SingleArticles extends StatefulWidget {
   final CategorySubEntity categorySubEntity;
 
-  const SingleArticles({Key? key, required this.categorySubEntity}) : super(key: key);
+  const SingleArticles({Key? key, required this.categorySubEntity})
+      : super(key: key);
 
   @override
   _SingleArticlesState createState() => _SingleArticlesState();
@@ -26,7 +27,8 @@ class _SingleArticlesState extends State<SingleArticles> {
   double webViewWidth = 10.0;
 
   void updateHeight() async {
-    double height = double.parse(await _controller!.evaluateJavascript("document.documentElement.scrollHeight;"));
+    double height = double.parse(await _controller!
+        .evaluateJavascript("document.documentElement.scrollHeight;"));
 
     if (webViewHeight != height) {
       setState(() {
@@ -93,46 +95,97 @@ class _SingleArticlesState extends State<SingleArticles> {
     );
   }*/
   Widget _widgetFromHtml(String data) {
-    String finalData =
-        "<!DOCTYPE html><html><head><style> body {font-size:12px}<\/style><\/head><body>" + data + "<\/body><\/html>";
-    return WebView(
-      javascriptMode: JavascriptMode.unrestricted,
-      onWebViewCreated: (controller) async {
-        _controller = controller;
-      },
-      gestureRecognizers: [
-        Factory(() => VerticalDragGestureRecognizer()),
-        Factory(() => HorizontalDragGestureRecognizer()),
-        Factory<ScaleGestureRecognizer>(() => ScaleGestureRecognizer()),
-      ].toSet(),
-      javascriptChannels: [
-        JavascriptChannel(
-            name: "Resize",
-            onMessageReceived: (JavascriptMessage message) {
-              updateHeight();
-            }),
-      ].toSet(),
-      onPageFinished: (url) async {
-        double newHeight = double.parse(await _controller!.evaluateJavascript("document.documentElement.scrollHeight;"));
-        double newWidth = double.parse(await _controller!.evaluateJavascript("document.documentElement.scrollWidth;"));
-        setState(() {
-          log("WebView Height: $newHeight && Width: $newWidth");
-          webViewHeight = newHeight;
-          webViewHeight = newWidth;
-        });
-      },
-      gestureNavigationEnabled: true,
-      initialUrl: Uri.dataFromString(
-              finalData
-                  .replaceAll("<td><span style=\"font-size: 12pt;\">", "<th>")
-                  .replaceAll("<\/span><\/td>", "<\/th>")
-                  .replaceAll("<td><span style=\"font-size: 14pt;\">", "<th>")
-                  .replaceAll("<td><strong><span style=\"font-size: 14pt;\">", "<th><strong>")
-                  .replaceAll("<\/span><\/strong><\/td>", "<\/strong><\/th>"),
-              mimeType: "text/html",
-              encoding: Encoding.getByName('utf-8'))
-          .toString(),
-    );
+    if (isIos) {
+      String finalData =
+          "<!DOCTYPE html><html><body>" + data + "<\/body><\/html>";
+      return WebView(
+        javascriptMode: JavascriptMode.unrestricted,
+        onWebViewCreated: (controller) async {
+          _controller = controller;
+        },
+        gestureRecognizers: [
+          Factory(() => VerticalDragGestureRecognizer()),
+          Factory(() => HorizontalDragGestureRecognizer()),
+          Factory<ScaleGestureRecognizer>(() => ScaleGestureRecognizer()),
+        ].toSet(),
+        javascriptChannels: [
+          JavascriptChannel(
+              name: "Resize",
+              onMessageReceived: (JavascriptMessage message) {
+                updateHeight();
+              }),
+        ].toSet(),
+        onPageFinished: (url) async {
+          double newHeight = double.parse(await _controller!
+              .evaluateJavascript("document.documentElement.scrollHeight;"));
+          double newWidth = double.parse(await _controller!
+              .evaluateJavascript("document.documentElement.scrollWidth;"));
+          setState(() {
+            log("WebView Height: $newHeight && Width: $newWidth");
+            webViewHeight = newHeight;
+            webViewHeight = newWidth;
+          });
+        },
+        gestureNavigationEnabled: true,
+        initialUrl: Uri.dataFromString(
+                finalData
+                    .replaceAll("<td><span style=\"font-size: 12pt;\">", "<th>")
+                    .replaceAll("<\/span><\/td>", "<\/th>")
+                    .replaceAll("<td><span style=\"font-size: 14pt;\">", "<th>")
+                    .replaceAll("<td><strong><span style=\"font-size: 14pt;\">",
+                        "<th><strong>")
+                    .replaceAll("<\/span><\/strong><\/td>", "<\/strong><\/th>"),
+                mimeType: "text/html",
+                encoding: Encoding.getByName('utf-8'))
+            .toString(),
+      );
+    } else {
+      String finalData =
+          "<!DOCTYPE html><html><head><style> body {font-size:12px}<\/style><\/head><body>" +
+              data +
+              "<\/body><\/html>";
+      return WebView(
+        javascriptMode: JavascriptMode.unrestricted,
+        onWebViewCreated: (controller) async {
+          _controller = controller;
+        },
+        gestureRecognizers: [
+          Factory(() => VerticalDragGestureRecognizer()),
+          Factory(() => HorizontalDragGestureRecognizer()),
+          Factory<ScaleGestureRecognizer>(() => ScaleGestureRecognizer()),
+        ].toSet(),
+        javascriptChannels: [
+          JavascriptChannel(
+              name: "Resize",
+              onMessageReceived: (JavascriptMessage message) {
+                updateHeight();
+              }),
+        ].toSet(),
+        onPageFinished: (url) async {
+          double newHeight = double.parse(await _controller!
+              .evaluateJavascript("document.documentElement.scrollHeight;"));
+          double newWidth = double.parse(await _controller!
+              .evaluateJavascript("document.documentElement.scrollWidth;"));
+          setState(() {
+            log("WebView Height: $newHeight && Width: $newWidth");
+            webViewHeight = newHeight;
+            webViewHeight = newWidth;
+          });
+        },
+        gestureNavigationEnabled: true,
+        initialUrl: Uri.dataFromString(
+                finalData
+                    .replaceAll("<td><span style=\"font-size: 12pt;\">", "<th>")
+                    .replaceAll("<\/span><\/td>", "<\/th>")
+                    .replaceAll("<td><span style=\"font-size: 14pt;\">", "<th>")
+                    .replaceAll("<td><strong><span style=\"font-size: 14pt;\">",
+                        "<th><strong>")
+                    .replaceAll("<\/span><\/strong><\/td>", "<\/strong><\/th>"),
+                mimeType: "text/html",
+                encoding: Encoding.getByName('utf-8'))
+            .toString(),
+      );
+    }
 
     /* return HtmlWidget(
       data
@@ -230,10 +283,13 @@ class _SingleArticlesState extends State<SingleArticles> {
                           thickness: 1.0,
                         ),
                         Container(
-                          height:
-                              MediaQuery.of(context).size.height - (MediaQuery.of(context).padding.top + kToolbarHeight) - 75.0,
+                          height: MediaQuery.of(context).size.height -
+                              (MediaQuery.of(context).padding.top +
+                                  kToolbarHeight) -
+                              75.0,
                           width: MediaQuery.of(context).size.width,
-                          child: _widgetFromHtml(widget.categorySubEntity.introtext!),
+                          child: _widgetFromHtml(
+                              widget.categorySubEntity.introtext!),
                         ),
                       ],
                     ),
@@ -311,10 +367,13 @@ class _SingleArticlesState extends State<SingleArticles> {
                           thickness: 1.0,
                         ),
                         Container(
-                          height:
-                              MediaQuery.of(context).size.height - (MediaQuery.of(context).padding.top + kToolbarHeight) - 90.0,
+                          height: MediaQuery.of(context).size.height -
+                              (MediaQuery.of(context).padding.top +
+                                  kToolbarHeight) -
+                              90.0,
                           width: MediaQuery.of(context).size.width,
-                          child: _widgetFromHtml(widget.categorySubEntity.introtext!),
+                          child: _widgetFromHtml(
+                              widget.categorySubEntity.introtext!),
                         ),
                       ],
                     ),

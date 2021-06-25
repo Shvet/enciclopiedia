@@ -20,7 +20,8 @@ class GoalKeeperList extends StatefulWidget {
   final String id;
   final String name;
 
-  GoalKeeperList({Key? key, required this.id, required this.name}) : super(key: key);
+  GoalKeeperList({Key? key, required this.id, required this.name})
+      : super(key: key);
 
   @override
   _GoalKeeperListState createState() => _GoalKeeperListState();
@@ -46,7 +47,8 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
     _searchEdit = new TextEditingController();
     super.initState();
     controller = PageController(initialPage: currentPageValue);
-    BlocProvider.of<CategorySubBloc>(context).add(FetchCategorySub(id: widget.id));
+    BlocProvider.of<CategorySubBloc>(context)
+        .add(FetchCategorySub(id: widget.id));
   }
 
   void getChangedPageAndMoveBar(int page) {
@@ -88,12 +90,14 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
             setState(() {
               isSearching = false;
             });
-            BlocProvider.of<CategorySubBloc>(context).add(FetchCategorySub(id: widget.id));
+            BlocProvider.of<CategorySubBloc>(context)
+                .add(FetchCategorySub(id: widget.id));
           } else if (value.isNotEmpty && value.length >= 3) {
             setState(() {
               isSearching = true;
             });
-            BlocProvider.of<SearchBloc>(context).add(SearchData(keyWord: value));
+            BlocProvider.of<SearchBloc>(context)
+                .add(SearchData(keyWord: value));
           }
         },
         decoration: InputDecoration(
@@ -179,38 +183,82 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
   }*/
 
   Widget _widgetFromHtml(String data) {
-    String finalData =
-        "<!DOCTYPE html><html><head><style> body {font-size:12px}<\/style><\/head><body>" + data + "<\/body><\/html>";
-    return WebView(
-      javascriptMode: JavascriptMode.unrestricted,
-      onWebViewCreated: (controller) async {
-        _controller = controller;
-      },
-      gestureRecognizers: [
-        Factory(() => VerticalDragGestureRecognizer()),
-        Factory(() => HorizontalDragGestureRecognizer()),
-        Factory<ScaleGestureRecognizer>(() => ScaleGestureRecognizer()),
-      ].toSet(),
-      onPageFinished: (url) async {
-        double newHeight = double.parse(await _controller!.evaluateJavascript("document.documentElement.scrollHeight;"));
-        double newWidth = double.parse(await _controller!.evaluateJavascript("document.documentElement.scrollWidth;"));
-        setState(() {
-          webViewHeight = newHeight;
-          webViewHeight = newWidth;
-        });
-      },
-      gestureNavigationEnabled: true,
-      initialUrl: Uri.dataFromString(
-              finalData
-                  .replaceAll("<td><span style=\"font-size: 12pt;\">", "<th>")
-                  .replaceAll("<\/span><\/td>", "<\/th>")
-                  .replaceAll("<td><span style=\"font-size: 14pt;\">", "<th>")
-                  .replaceAll("<td><strong><span style=\"font-size: 14pt;\">", "<th><strong>")
-                  .replaceAll("<\/span><\/strong><\/td>", "<\/strong><\/th>"),
-              mimeType: "text/html",
-              encoding: Encoding.getByName('utf-8'))
-          .toString(),
-    );
+    if (isIos) {
+      String finalData =
+          "<!DOCTYPE html><html><body>" + data + "<\/body><\/html>";
+      return WebView(
+        javascriptMode: JavascriptMode.unrestricted,
+        onWebViewCreated: (controller) async {
+          _controller = controller;
+        },
+        gestureRecognizers: [
+          Factory(() => VerticalDragGestureRecognizer()),
+          Factory(() => HorizontalDragGestureRecognizer()),
+          Factory<ScaleGestureRecognizer>(() => ScaleGestureRecognizer()),
+        ].toSet(),
+        onPageFinished: (url) async {
+          double newHeight = double.parse(await _controller!
+              .evaluateJavascript("document.documentElement.scrollHeight;"));
+          double newWidth = double.parse(await _controller!
+              .evaluateJavascript("document.documentElement.scrollWidth;"));
+          setState(() {
+            webViewHeight = newHeight;
+            webViewHeight = newWidth;
+          });
+        },
+        gestureNavigationEnabled: true,
+        initialUrl: Uri.dataFromString(
+                finalData
+                    .replaceAll("<td><span style=\"font-size: 12pt;\">", "<th>")
+                    .replaceAll("<\/span><\/td>", "<\/th>")
+                    .replaceAll("<td><span style=\"font-size: 14pt;\">", "<th>")
+                    .replaceAll("<td><strong><span style=\"font-size: 14pt;\">",
+                        "<th><strong>")
+                    .replaceAll("<\/span><\/strong><\/td>", "<\/strong><\/th>"),
+                mimeType: "text/html",
+                encoding: Encoding.getByName('utf-8'))
+            .toString(),
+      );
+    } else {
+      String finalData =
+          "<!DOCTYPE html><html><head><style> body {font-size:12px}<\/style><\/head><body>" +
+              data +
+              "<\/body><\/html>";
+      return WebView(
+        javascriptMode: JavascriptMode.unrestricted,
+        onWebViewCreated: (controller) async {
+          _controller = controller;
+        },
+        gestureRecognizers: [
+          Factory(() => VerticalDragGestureRecognizer()),
+          Factory(() => HorizontalDragGestureRecognizer()),
+          Factory<ScaleGestureRecognizer>(() => ScaleGestureRecognizer()),
+        ].toSet(),
+        onPageFinished: (url) async {
+          double newHeight = double.parse(await _controller!
+              .evaluateJavascript("document.documentElement.scrollHeight;"));
+          double newWidth = double.parse(await _controller!
+              .evaluateJavascript("document.documentElement.scrollWidth;"));
+          setState(() {
+            webViewHeight = newHeight;
+            webViewHeight = newWidth;
+          });
+        },
+        gestureNavigationEnabled: true,
+        initialUrl: Uri.dataFromString(
+                finalData
+                    .replaceAll("<td><span style=\"font-size: 12pt;\">", "<th>")
+                    .replaceAll("<\/span><\/td>", "<\/th>")
+                    .replaceAll("<td><span style=\"font-size: 14pt;\">", "<th>")
+                    .replaceAll("<td><strong><span style=\"font-size: 14pt;\">",
+                        "<th><strong>")
+                    .replaceAll("<\/span><\/strong><\/td>", "<\/strong><\/th>"),
+                mimeType: "text/html",
+                encoding: Encoding.getByName('utf-8'))
+            .toString(),
+      );
+    }
+
     /*return HtmlWidget(
       data
      .replaceAll("<td><span style=\"font-size: 12pt;\">", "<th>")
@@ -348,7 +396,8 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                             builder: (context, state) {
                               if (state is SearchError) {
                                 return Center(
-                                  child: Text(state.error), //No se encontraron resultados
+                                  child: Text(state
+                                      .error), //No se encontraron resultados
                                 );
                               }
                               if (state is SearchLoading) {
@@ -359,7 +408,8 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                 );
                               }
                               if (state is SearchLoaded) {
-                                if (state.list.data!.isEmpty || state.list.data!.length == 0) {
+                                if (state.list.data!.isEmpty ||
+                                    state.list.data!.length == 0) {
                                   return Center(
                                     child: Text("No se encontraron resultados"),
                                   );
@@ -423,14 +473,16 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                               }
                               if (state is CategorySubError) {
                                 return Center(
-                                  child: Text(state.error), //There is Error in Fetching data
+                                  child: Text(state
+                                      .error), //There is Error in Fetching data
                                 );
                               }
                               if (state is CategorySubLoaded) {
                                 // _list.addAll(state.list);
                                 return Expanded(
                                   child: Stack(
-                                    alignment: AlignmentDirectional.bottomCenter,
+                                    alignment:
+                                        AlignmentDirectional.bottomCenter,
                                     children: <Widget>[
                                       PageView.builder(
                                         physics: ClampingScrollPhysics(),
@@ -439,7 +491,8 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                         onPageChanged: (int page) {
                                           getChangedPageAndMoveBar(page);
                                         },
-                                        itemBuilder: (context, index) => ListView(
+                                        itemBuilder: (context, index) =>
+                                            ListView(
                                           shrinkWrap: false,
                                           physics: ScrollPhysics(),
                                           scrollDirection: Axis.vertical,
@@ -461,37 +514,53 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                             Container(
                                               height: webViewHeight,
                                               width: webViewWidth,
-                                              child: _widgetFromHtml(state.list[index].introtext!.trim()),
+                                              child: _widgetFromHtml(state
+                                                  .list[index].introtext!
+                                                  .trim()),
                                             ),
                                             SizedBox(
                                               height: 30.0,
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  Future<String?> s = SocialShare.shareTwitter(
-                                                      "Enciclopedia Deportiva-${widget.name} ",
-                                                      trailingText: "",
-                                                      hashtags: ["EnciclopediaDeportiva"],
-                                                      url: "https://apps.apple.com/us/app/enciclopedia-deportiva/id1542621011");
+                                                  Future<String?> s =
+                                                      SocialShare.shareTwitter(
+                                                          "Enciclopedia Deportiva-${widget.name} ",
+                                                          trailingText: "",
+                                                          hashtags: [
+                                                            "EnciclopediaDeportiva"
+                                                          ],
+                                                          url:
+                                                              "https://apps.apple.com/us/app/enciclopedia-deportiva/id1542621011");
                                                   s.then((value) {
                                                     // ignore: unnecessary_null_comparison
                                                     if (value != null) {
                                                       final snackBar = SnackBar(
                                                         content: Text(value),
                                                         elevation: 5.0,
-                                                        duration: Duration(seconds: 1),
+                                                        duration: Duration(
+                                                            seconds: 1),
                                                       );
-                                                      ScaffoldMessenger.maybeOf(context)!.showSnackBar(snackBar);
+                                                      ScaffoldMessenger.maybeOf(
+                                                              context)!
+                                                          .showSnackBar(
+                                                              snackBar);
                                                     } else {
                                                       final snackBar = SnackBar(
-                                                        content: Text("You do not have twitter app installed"),
+                                                        content: Text(
+                                                            "You do not have twitter app installed"),
                                                         elevation: 5.0,
-                                                        duration: Duration(seconds: 1),
+                                                        duration: Duration(
+                                                            seconds: 1),
                                                       );
-                                                      ScaffoldMessenger.maybeOf(context)!.showSnackBar(snackBar);
+                                                      ScaffoldMessenger.maybeOf(
+                                                              context)!
+                                                          .showSnackBar(
+                                                              snackBar);
                                                     }
                                                   });
                                                 },
-                                                child: Image.asset("assets/images/tweeter.png"),
+                                                child: Image.asset(
+                                                    "assets/images/tweeter.png"),
                                               ),
                                             ),
                                             SizedBox(
@@ -501,11 +570,13 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                               height: 50.0,
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  final page = MoreArticles(state.list);
+                                                  final page =
+                                                      MoreArticles(state.list);
                                                   Navigator.push(
                                                     context,
                                                     CupertinoPageRoute(
-                                                      builder: (context) => page,
+                                                      builder: (context) =>
+                                                          page,
                                                     ),
                                                   );
                                                 },
@@ -518,7 +589,10 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                       width: 2.0,
                                                     ),
                                                     shape: BoxShape.rectangle,
-                                                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                5.0)),
                                                   ),
                                                   child: Text(
                                                     "Más artículos...",
@@ -551,13 +625,15 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                               ),
                                             ),
                                             onPressed: () {
-                                              controller.jumpToPage(currentPageValue + 1);
+                                              controller.jumpToPage(
+                                                  currentPageValue + 1);
                                               currentPageValue += 1;
                                             },
                                             child: Icon(Icons.arrow_forward),
                                           ),
                                         ),
-                                        alignment: AlignmentDirectional.bottomEnd,
+                                        alignment:
+                                            AlignmentDirectional.bottomEnd,
                                       )
                                     ],
                                   ),
@@ -655,7 +731,8 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                 );
                               }
                               if (state is SearchLoaded) {
-                                if (state.list.data!.isEmpty || state.list.data!.length == 0) {
+                                if (state.list.data!.isEmpty ||
+                                    state.list.data!.length == 0) {
                                   return Center(
                                     child: Text("No se encontraron resultados"),
                                   );
@@ -718,13 +795,15 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                               }
                               if (state is CategoryError) {
                                 return Center(
-                                  child: Text("There is Error in Fetching data"),
+                                  child:
+                                      Text("There is Error in Fetching data"),
                                 );
                               }
                               if (state is CategorySubLoaded) {
                                 return Expanded(
                                   child: Stack(
-                                    alignment: AlignmentDirectional.bottomCenter,
+                                    alignment:
+                                        AlignmentDirectional.bottomCenter,
                                     children: <Widget>[
                                       PageView.builder(
                                         physics: ClampingScrollPhysics(),
@@ -733,7 +812,8 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                         onPageChanged: (int page) {
                                           getChangedPageAndMoveBar(page);
                                         },
-                                        itemBuilder: (context, index) => ListView(
+                                        itemBuilder: (context, index) =>
+                                            ListView(
                                           shrinkWrap: false,
                                           physics: ScrollPhysics(),
                                           scrollDirection: Axis.vertical,
@@ -755,7 +835,9 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                             Container(
                                               height: webViewHeight,
                                               width: webViewWidth,
-                                              child: _widgetFromHtml(state.list[index].introtext!.trim()),
+                                              child: _widgetFromHtml(state
+                                                  .list[index].introtext!
+                                                  .trim()),
                                             ),
                                             Align(
                                               alignment: Alignment.centerLeft,
@@ -763,13 +845,17 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                 height: 30.0,
                                                 child: GestureDetector(
                                                   onTap: () {
-                                                    SocialShare.shareTwitter("Enciclopedia Deportiva-${widget.name}",
+                                                    SocialShare.shareTwitter(
+                                                        "Enciclopedia Deportiva-${widget.name}",
                                                         trailingText: "",
-                                                        hashtags: ["EnciclopediaDeportiva"],
+                                                        hashtags: [
+                                                          "EnciclopediaDeportiva"
+                                                        ],
                                                         url:
                                                             "https://play.google.com/store/apps/details?id=com.str.enciclopiedia_deportiva");
                                                   },
-                                                  child: Image.asset("assets/images/tweeter.png"),
+                                                  child: Image.asset(
+                                                      "assets/images/tweeter.png"),
                                                 ),
                                               ),
                                             ),
@@ -780,11 +866,13 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                               height: 50.0,
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  final page = MoreArticles(state.list);
+                                                  final page =
+                                                      MoreArticles(state.list);
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                      builder: (context) => page,
+                                                      builder: (context) =>
+                                                          page,
                                                     ),
                                                   );
                                                 },
@@ -797,7 +885,10 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                       width: 2.0,
                                                     ),
                                                     shape: BoxShape.rectangle,
-                                                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                5.0)),
                                                   ),
                                                   child: Text(
                                                     "Más artículos...",
@@ -817,7 +908,8 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                         ),
                                       ),
                                       Align(
-                                        alignment: AlignmentDirectional.bottomEnd,
+                                        alignment:
+                                            AlignmentDirectional.bottomEnd,
                                         child: Container(
                                           margin: EdgeInsets.only(
                                             bottom: 10.0,
@@ -831,7 +923,8 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                               ),
                                             ),
                                             onPressed: () {
-                                              controller.jumpToPage(currentPageValue + 1);
+                                              controller.jumpToPage(
+                                                  currentPageValue + 1);
                                               currentPageValue += 1;
                                             },
                                             child: Icon(Icons.arrow_forward),
