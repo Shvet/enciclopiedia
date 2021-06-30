@@ -185,7 +185,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
   Widget _widgetFromHtml(String data) {
     if (isIos) {
       String finalData =
-          """<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style> body {font-size:18px}<\/style><\/head><body style='"margin: 0; padding: 0;'>"$data"<\/body><\/html>""";
+          """ <!DOCTYPE html><html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'><style> body {font-size:18px}<\/style><\/head><body style='"margin: 0; padding: 0;'>$data<\/body><\/html>""";
       return WebView(
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (controller) async {
