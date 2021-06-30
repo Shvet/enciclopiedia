@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:enciclopiedia_deportiva/bloc/search_bloc.dart';
 import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
 import 'package:enciclopiedia_deportiva/models/category_main_entity.dart';
-import 'package:enciclopiedia_deportiva/ui/custom_expansion_tile.dart' as custom;
+import 'package:enciclopiedia_deportiva/ui/custom_expansion_tile.dart'
+    as custom;
 import 'package:enciclopiedia_deportiva/ui/goal_keep_list.dart';
 import 'package:enciclopiedia_deportiva/ui/searched_article.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,7 +38,8 @@ class _HomeState extends State<Home> {
     List<dynamic> jsonArray = jsonDecode(jsonString);
 
     List<CategoryMainEntity> finalList = jsonArray
-        .map((categoryList) => categoryMainEntityFromJson(new CategoryMainEntity(), categoryList))
+        .map((categoryList) =>
+            categoryMainEntityFromJson(new CategoryMainEntity(), categoryList))
         .cast<CategoryMainEntity>()
         .toList();
     return finalList;
@@ -112,7 +114,8 @@ class _HomeState extends State<Home> {
               ),
             );
           } else {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => page));
           }
         },
       ));
@@ -197,11 +200,13 @@ class _HomeState extends State<Home> {
                                     _list.addAll(value);
                                   });
                                 });
-                              } else if (value.isNotEmpty && value.length >= 3) {
+                              } else if (value.isNotEmpty &&
+                                  value.length >= 3) {
                                 setState(() {
                                   isSearching = true;
                                 });
-                                BlocProvider.of<SearchBloc>(context).add(SearchData(keyWord: value));
+                                BlocProvider.of<SearchBloc>(context)
+                                    .add(SearchData(keyWord: value));
                               }
                             },
                             keyboardType: TextInputType.text,
@@ -237,9 +242,13 @@ class _HomeState extends State<Home> {
                                 return custom.ExpansionTile(
                                   title: new Text(
                                     "${_list[index].title}",
-                                    style: TextStyle(color: isExpanded ? Color(0xffECD69D) : Colors.white),
+                                    style: TextStyle(
+                                        color: isExpanded
+                                            ? Color(0xffECD69D)
+                                            : Colors.white),
                                   ),
                                   initiallyExpanded: false,
+                                  backgroundColor: Colors.white,
                                   leading: Card(
                                     color: Color(0xff545557),
                                     margin: EdgeInsets.all(5.0),
@@ -259,8 +268,12 @@ class _HomeState extends State<Home> {
                                       alignment: Alignment.center,
                                     ),
                                   ),
-                                  iconColor: isExpanded ? Color(0xffECD69D) : Colors.white,
-                                  children: <Widget>[...showSubList(_list[index].sub!)],
+                                  iconColor: isExpanded
+                                      ? Color(0xffECD69D)
+                                      : Colors.white,
+                                  children: <Widget>[
+                                    ...showSubList(_list[index].sub!)
+                                  ],
                                   onExpansionChanged: (bool expanding) {
                                     setState(() {
                                       isExpanded = expanding;
@@ -288,7 +301,8 @@ class _HomeState extends State<Home> {
                                 );
                               }
                               if (state is SearchLoaded) {
-                                if (state.list.data!.isEmpty || state.list.data!.length == 0) {
+                                if (state.list.data!.isEmpty ||
+                                    state.list.data!.length == 0) {
                                   return Center(
                                     child: Text("No se encontraron resultados"),
                                   );
@@ -416,11 +430,13 @@ class _HomeState extends State<Home> {
                                     _list.addAll(value);
                                   });
                                 });
-                              } else if (value.isNotEmpty && value.length >= 3) {
+                              } else if (value.isNotEmpty &&
+                                  value.length >= 3) {
                                 setState(() {
                                   isSearching = true;
                                 });
-                                BlocProvider.of<SearchBloc>(context).add(SearchData(keyWord: value));
+                                BlocProvider.of<SearchBloc>(context)
+                                    .add(SearchData(keyWord: value));
                               }
                             },
                             keyboardType: TextInputType.text,
@@ -453,10 +469,13 @@ class _HomeState extends State<Home> {
                               shrinkWrap: true,
                               physics: ScrollPhysics(),
                               itemBuilder: (context, index) {
-                                return new custom.ExpansionTile(
+                                return custom.ExpansionTile(
                                   title: new Text(
                                     "${_list[index].title}",
-                                    style: TextStyle(color: isExpanded ? Color(0xffECD69D) : Colors.white),
+                                    style: TextStyle(
+                                        color: isExpanded
+                                            ? Color(0xffECD69D)
+                                            : Colors.white),
                                   ),
                                   initiallyExpanded: false,
                                   leading: Card(
@@ -478,8 +497,12 @@ class _HomeState extends State<Home> {
                                       alignment: Alignment.center,
                                     ),
                                   ),
-                                  iconColor: isExpanded ? Color(0xffECD69D) : Colors.white,
-                                  children: <Widget>[...showSubList(_list[index].sub!)],
+                                  iconColor: isExpanded
+                                      ? Color(0xffECD69D)
+                                      : Colors.white,
+                                  children: <Widget>[
+                                    ...showSubList(_list[index].sub!)
+                                  ],
                                   onExpansionChanged: (bool expanding) {
                                     setState(() {
                                       isExpanded = expanding;
@@ -508,7 +531,8 @@ class _HomeState extends State<Home> {
                                 );
                               }
                               if (state is SearchLoaded) {
-                                if (state.list.data!.isEmpty || state.list.data!.length == 0) {
+                                if (state.list.data!.isEmpty ||
+                                    state.list.data!.length == 0) {
                                   return Center(
                                     child: Text("No se encontraron resultados"),
                                   );
