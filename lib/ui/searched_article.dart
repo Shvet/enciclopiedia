@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:enciclopiedia_deportiva/common/PlatformViewVerticalGestureRecognizer.dart';
 import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
 import 'package:enciclopiedia_deportiva/common/constants/general.dart';
 import 'package:enciclopiedia_deportiva/models/search_entity.dart';
@@ -104,7 +105,7 @@ class _SearchedArticleState extends State<SearchedArticle> {
           _controller = controller;
         },
         gestureRecognizers: [
-          Factory(() => VerticalDragGestureRecognizer()),
+          Factory(() => PlatformViewVerticalGestureRecognizer()..onUpdate = (DragUpdateDetails details) {}),
           Factory(() => HorizontalDragGestureRecognizer()),
           Factory<ScaleGestureRecognizer>(() => ScaleGestureRecognizer()),
         ].toSet(),
@@ -247,9 +248,8 @@ class _SearchedArticleState extends State<SearchedArticle> {
                           color: darkBG,
                           thickness: 1.0,
                         ),
-                        Container(
-                          height:
-                              MediaQuery.of(context).size.height - (MediaQuery.of(context).padding.top + kToolbarHeight) - 90.0,
+                        SizedBox(
+                          height: webViewHeight,
                           width: MediaQuery.of(context).size.width,
                           child: _widgetFromHtml(widget.entity.text!),
                         ),

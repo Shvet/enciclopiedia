@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:enciclopiedia_deportiva/bloc/bloc.dart';
+import 'package:enciclopiedia_deportiva/common/PlatformViewVerticalGestureRecognizer.dart';
 import 'package:enciclopiedia_deportiva/common/constants/colors.dart';
 import 'package:enciclopiedia_deportiva/common/constants/general.dart';
 import 'package:enciclopiedia_deportiva/ui/more_articales.dart';
@@ -188,7 +190,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
           _controller = controller;
         },
         gestureRecognizers: [
-          Factory(() => VerticalDragGestureRecognizer()),
+          Factory(() => PlatformViewVerticalGestureRecognizer()..onUpdate = (DragUpdateDetails details) {}),
           Factory(() => HorizontalDragGestureRecognizer()),
           Factory<ScaleGestureRecognizer>(() => ScaleGestureRecognizer()),
         ].toSet(),
@@ -221,7 +223,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
           _controller = controller;
         },
         gestureRecognizers: [
-          Factory(() => VerticalDragGestureRecognizer()),
+          Factory(() => PlatformViewVerticalGestureRecognizer()..onUpdate = (DragUpdateDetails details) {}),
           Factory(() => HorizontalDragGestureRecognizer()),
           Factory<ScaleGestureRecognizer>(() => ScaleGestureRecognizer()),
         ].toSet(),
@@ -246,42 +248,6 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
             .toString(),
       );
     }
-
-    /*return HtmlWidget(
-      data
-     .replaceAll("<td><span style=\"font-size: 12pt;\">", "<th>")
-          .replaceAll("<\/span><\/td>", "<\/th>")
-          .replaceAll("<td><span style=\"font-size: 14pt;\">", "<th>")
-          .replaceAll("<td><strong><span style=\"font-size: 14pt;\">", "<th><strong>")
-          .replaceAll("<\/span><\/strong><\/td>", "<\/strong><\/th>")
-          .replaceAll("<tr><\/tr>", "")
-      ,
-      textStyle: TextStyle(
-        fontSize: 12.0,
-        textBaseline: TextBaseline.alphabetic,
-      ),
-      enableCaching: true,
-      customStylesBuilder: (element) {
-        if (element.className.contains('body')) {
-          return {
-            'white-space': 'normal',
-            'text-align': 'justify',
-            'word-break': 'break-all',
-            'word-wrap': 'break-word',
-          };
-        } else if (element.className.contains('table')) {
-          return {
-            'max-width': '100%',
-          };
-        } else if (element.className.contains('td')) {
-          return {
-            'text-align': 'justify',
-            'word-break': 'break-all',
-            'text-overflow': 'clip',
-          };
-        }
-      },
-    );*/
   }
 
   Container movingBar() {
@@ -472,12 +438,11 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                         physics: ClampingScrollPhysics(),
                                         itemCount: state.list.length,
                                         controller: controller,
-                                        onPageChanged: (int page) {
-                                          getChangedPageAndMoveBar(page);
-                                        },
+                                        onPageChanged: (int page) {},
                                         itemBuilder: (context, index) => ListView(
-                                          shrinkWrap: false,
-                                          physics: ScrollPhysics(),
+                                          shrinkWrap: true,
+                                          primary: true,
+                                          physics: BouncingScrollPhysics(),
                                           scrollDirection: Axis.vertical,
                                           children: [
                                             Text(
@@ -494,10 +459,8 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                               color: darkBG,
                                               thickness: 1.0,
                                             ),
-                                            Container(
-                                              height: MediaQuery.of(context).size.height -
-                                                  (MediaQuery.of(context).padding.top + kToolbarHeight) -
-                                                  75.0,
+                                            SizedBox(
+                                              height: webViewHeight,
                                               width: webViewWidth,
                                               child: _widgetFromHtml(state.list[index].introtext!.trim()),
                                             ),
@@ -761,6 +724,7 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                 );
                               }
                               if (state is CategorySubLoaded) {
+                                log("${MediaQuery.of(context).size.height - (MediaQuery.of(context).padding.top + kToolbarHeight) - 200.0}");
                                 return Expanded(
                                   child: Stack(
                                     alignment: AlignmentDirectional.bottomCenter,
@@ -773,7 +737,8 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                           getChangedPageAndMoveBar(page);
                                         },
                                         itemBuilder: (context, index) => ListView(
-                                          shrinkWrap: false,
+                                          shrinkWrap: true,
+                                          primary: true,
                                           physics: ScrollPhysics(),
                                           scrollDirection: Axis.vertical,
                                           children: [
@@ -791,10 +756,8 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                               color: darkBG,
                                               thickness: 1.0,
                                             ),
-                                            Container(
-                                              height: MediaQuery.of(context).size.height -
-                                                  (MediaQuery.of(context).padding.top + kToolbarHeight) -
-                                                  100.0,
+                                            SizedBox(
+                                              height: webViewHeight,
                                               width: webViewWidth,
                                               child: _widgetFromHtml(state.list[index].introtext!.trim()),
                                             ),

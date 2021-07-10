@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:enciclopiedia_deportiva/generated/json/category_entity_helper.dart';
 import 'package:enciclopiedia_deportiva/generated/json/category_sub_entity_helper.dart';
@@ -41,7 +40,7 @@ class CategoryApi {
       throw new Exception("error getting categories");
     }
     List<dynamic> jsonArray = jsonDecode(result.body);
-    log("WEb Result: ${result.body}");
+    // log("WEb Result: ${result.body}");
     List<CategorySubEntity> list = List<CategorySubEntity>.from(jsonArray.map(
       (categorySub) => categorySubEntityFromJson(new CategorySubEntity(), categorySub),
     ));

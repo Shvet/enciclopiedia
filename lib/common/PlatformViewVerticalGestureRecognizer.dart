@@ -21,11 +21,12 @@ class PlatformViewVerticalGestureRecognizer extends VerticalDragGestureRecognize
         // vertical drag - accept
         resolve(GestureDisposition.accepted);
         _dragDistance = Offset.zero;
-      } else if (dx > kTouchSlop && dx > dy) {
+      }
+      /*else if (dx > kTouchSlop && dx > dy) {
         // horizontal drag - stop tracking
         stopTrackingPointer(event.pointer);
         _dragDistance = Offset.zero;
-      }
+      }*/
     }
   }
 
