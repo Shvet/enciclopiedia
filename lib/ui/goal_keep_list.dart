@@ -472,10 +472,10 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                   onTap: () async {
                                                     SocialShare.shareTwitter(
                                                       "${widget.name} ",
-                                                      trailingText: "",
+                                                      trailingText:
+                                                          "https://apps.apple.com/us/app/enciclopedia-deportiva/id1542621011",
                                                       hashtags: ["Enciclopedia", "Deportiva"],
-                                                      url:
-                                                          "https://www.enciclopediadeportiva.com/", //https://apps.apple.com/us/app/enciclopedia-deportiva/id1542621011
+                                                      // url: "https://apps.apple.com/us/app/enciclopedia-deportiva/id1542621011",
                                                     ).then((value) {
                                                       if (value != null) {
                                                         final snackBar = SnackBar(
@@ -486,12 +486,12 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                         ScaffoldMessenger.maybeOf(context)!.showSnackBar(snackBar);
                                                       }
                                                     }).onError((error, stackTrace) {
-                                                      log("Error in Twitter: " + stackTrace.toString());
+                                                      log("Error in Twitter: " + " $error " + stackTrace.toString());
                                                       SnackBar snackBar = SnackBar(
                                                         content: Text("Error: " + error.toString()),
                                                         duration: Duration(seconds: 2),
                                                       );
-                                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                      ScaffoldMessenger.maybeOf(context)!.showSnackBar(snackBar);
                                                     });
                                                   },
                                                   child: Image.asset("assets/images/tweeter.png"),
