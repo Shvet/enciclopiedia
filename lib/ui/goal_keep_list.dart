@@ -464,36 +464,44 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                               width: webViewWidth,
                                               child: _widgetFromHtml(state.list[index].introtext!.trim()),
                                             ),
-                                            SizedBox(
-                                              height: 30.0,
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  Future<String?> s = SocialShare.shareTwitter(
-                                                    "Enciclopedia Deportiva-${widget.name} ",
-                                                    trailingText: "",
-                                                    hashtags: ["EnciclopediaDeportiva"],
-                                                    url: "https://apps.apple.com/us/app/enciclopedia-deportiva/id1542621011",
-                                                  );
-                                                  s.then((value) {
-                                                    // ignore: unnecessary_null_comparison
-                                                    if (value != null) {
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: SizedBox(
+                                                height: 30.0,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    Future<String?> s = SocialShare.shareTwitter(
+                                                      "Enciclopedia Deportiva-${widget.name} ",
+                                                      trailingText: "",
+                                                      hashtags: ["EnciclopediaDeportiva"],
+                                                      url: "https://apps.apple.com/us/app/enciclopedia-deportiva/id1542621011",
+                                                    );
+                                                    s.then((value) {
+                                                      if (value != null) {
+                                                        final snackBar = SnackBar(
+                                                          content: Text(value),
+                                                          elevation: 5.0,
+                                                          duration: Duration(seconds: 1),
+                                                        );
+                                                        ScaffoldMessenger.maybeOf(context)!.showSnackBar(snackBar);
+                                                      } else {
+                                                        final snackBar = SnackBar(
+                                                          content: Text("You do not have twitter app installed"),
+                                                          elevation: 5.0,
+                                                          duration: Duration(seconds: 1),
+                                                        );
+                                                        ScaffoldMessenger.maybeOf(context)!.showSnackBar(snackBar);
+                                                      }
+                                                    }).onError((error, stackTrace) {
                                                       final snackBar = SnackBar(
-                                                        content: Text(value),
-                                                        elevation: 5.0,
-                                                        duration: Duration(seconds: 1),
+                                                        content: Text(error.toString()),
+                                                        duration: Duration(seconds: 2),
                                                       );
-                                                      ScaffoldMessenger.maybeOf(context)!.showSnackBar(snackBar);
-                                                    } else {
-                                                      final snackBar = SnackBar(
-                                                        content: Text("You do not have twitter app installed"),
-                                                        elevation: 5.0,
-                                                        duration: Duration(seconds: 1),
-                                                      );
-                                                      ScaffoldMessenger.maybeOf(context)!.showSnackBar(snackBar);
-                                                    }
-                                                  });
-                                                },
-                                                child: Image.asset("assets/images/tweeter.png"),
+                                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                    });
+                                                  },
+                                                  child: Image.asset("assets/images/tweeter.png"),
+                                                ),
                                               ),
                                             ),
                                             SizedBox(
