@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:social_share/social_share.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -471,11 +470,12 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                 height: 30.0,
                                                 child: GestureDetector(
                                                   onTap: () async {
-                                                    /*SocialShare.shareTwitter(
-                                                      "Enciclopedia Deportiva-${widget.name} ",
+                                                    SocialShare.shareTwitter(
+                                                      "${widget.name} ",
                                                       trailingText: "",
-                                                      hashtags: ["EnciclopediaDeportiva"],
-                                                      url: "https://apps.apple.com/us/app/enciclopedia-deportiva/id1542621011",
+                                                      hashtags: ["Enciclopedia", "Deportiva"],
+                                                      url:
+                                                          "https://www.enciclopediadeportiva.com/", //https://apps.apple.com/us/app/enciclopedia-deportiva/id1542621011
                                                     ).then((value) {
                                                       if (value != null) {
                                                         final snackBar = SnackBar(
@@ -484,40 +484,15 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                           duration: Duration(seconds: 1),
                                                         );
                                                         ScaffoldMessenger.maybeOf(context)!.showSnackBar(snackBar);
-                                                      } else {
-                                                        final snackBar = SnackBar(
-                                                          content: Text("You do not have twitter app installed"),
-                                                          elevation: 5.0,
-                                                          duration: Duration(seconds: 1),
-                                                        );
-                                                        ScaffoldMessenger.maybeOf(context)!.showSnackBar(snackBar);
                                                       }
                                                     }).onError((error, stackTrace) {
+                                                      log(stackTrace.toString());
                                                       final snackBar = SnackBar(
                                                         content: Text(error.toString()),
                                                         duration: Duration(seconds: 2),
                                                       );
                                                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                                    });*/
-                                                    var response = await FlutterShareMe().shareToTwitter(
-                                                      msg: "Enciclopedia Deportiva-${widget.name} #EnciclopediaDeportiva",
-                                                      url: "https://apps.apple.com/us/app/enciclopedia-deportiva/id1542621011",
-                                                    );
-                                                    if (response == 'success') {
-                                                      final snackBar = SnackBar(
-                                                        content: Text(response),
-                                                        elevation: 5.0,
-                                                        duration: Duration(seconds: 1),
-                                                      );
-                                                      ScaffoldMessenger.maybeOf(context)!.showSnackBar(snackBar);
-                                                    } else {
-                                                      final snackBar = SnackBar(
-                                                        content: Text(response),
-                                                        elevation: 5.0,
-                                                        duration: Duration(seconds: 1),
-                                                      );
-                                                      ScaffoldMessenger.maybeOf(context)!.showSnackBar(snackBar);
-                                                    }
+                                                    });
                                                   },
                                                   child: Image.asset("assets/images/tweeter.png"),
                                                 ),
