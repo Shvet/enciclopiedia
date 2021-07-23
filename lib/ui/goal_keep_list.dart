@@ -486,9 +486,9 @@ class _GoalKeeperListState extends State<GoalKeeperList> {
                                                         ScaffoldMessenger.maybeOf(context)!.showSnackBar(snackBar);
                                                       }
                                                     }).onError((error, stackTrace) {
-                                                      log(stackTrace.toString());
-                                                      final snackBar = SnackBar(
-                                                        content: Text(error.toString()),
+                                                      log("Error in Twitter: " + stackTrace.toString());
+                                                      SnackBar snackBar = SnackBar(
+                                                        content: Text("Error: " + error.toString()),
                                                         duration: Duration(seconds: 2),
                                                       );
                                                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
